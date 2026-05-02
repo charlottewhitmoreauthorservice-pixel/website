@@ -1,0 +1,3963 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mercyworld Read Network | Strategic Book Marketing for Serious Authors</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,500;1,600;1,700&family=Inter:wght@300;400;500;600;700;800;900&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        /* ============================================
+           PRELOADER STYLES
+           ============================================ */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        #preloader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #0a0a1a 0%, #1a0a2e 50%, #0d1b2a 100%);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 99999;
+            transition: opacity 0.8s ease, visibility 0.8s ease;
+        }
+
+        #preloader.hidden {
+            opacity: 0;
+            visibility: hidden;
+        }
+
+        .preloader-logo {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #c9a84c;
+            letter-spacing: 3px;
+            margin-bottom: 30px;
+            animation: preloaderPulse 2s ease-in-out infinite;
+        }
+
+        .preloader-tagline {
+            font-family: 'Inter', sans-serif;
+            font-size: 0.9rem;
+            color: rgba(201, 168, 76, 0.7);
+            letter-spacing: 5px;
+            text-transform: uppercase;
+            margin-bottom: 40px;
+        }
+
+        .preloader-spinner {
+            width: 60px;
+            height: 60px;
+            border: 3px solid rgba(201, 168, 76, 0.1);
+            border-top: 3px solid #c9a84c;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        .preloader-book {
+            position: relative;
+            width: 80px;
+            height: 60px;
+            margin-bottom: 30px;
+        }
+
+        .preloader-book .book-page {
+            position: absolute;
+            width: 30px;
+            height: 50px;
+            background: #c9a84c;
+            border-radius: 0 5px 5px 0;
+            transform-origin: left center;
+        }
+
+        .preloader-book .book-page:nth-child(1) {
+            animation: flipPage 1.5s ease-in-out infinite;
+            z-index: 3;
+        }
+
+        .preloader-book .book-page:nth-child(2) {
+            animation: flipPage 1.5s ease-in-out infinite 0.3s;
+            z-index: 2;
+            opacity: 0.7;
+        }
+
+        .preloader-book .book-page:nth-child(3) {
+            animation: flipPage 1.5s ease-in-out infinite 0.6s;
+            z-index: 1;
+            opacity: 0.4;
+        }
+
+        @keyframes flipPage {
+            0%, 100% { transform: rotateY(0deg); }
+            50% { transform: rotateY(-180deg); }
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        @keyframes preloaderPulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        /* ============================================
+           ROOT VARIABLES AND BASE STYLES
+           ============================================ */
+        :root {
+            --royal-gold: #c9a84c;
+            --royal-gold-light: #d4b868;
+            --royal-gold-dark: #a8893d;
+            --royal-navy: #0a0a1a;
+            --royal-navy-light: #1a1a3e;
+            --royal-purple: #1a0a2e;
+            --royal-deep-blue: #0d1b2a;
+            --royal-burgundy: #4a0e2e;
+            --text-white: #f5f0e8;
+            --text-cream: #e8dcc8;
+            --text-muted: #a09880;
+            --accent-emerald: #2d5a3d;
+            --glass-bg: rgba(26, 26, 62, 0.6);
+            --glass-border: rgba(201, 168, 76, 0.15);
+            --shadow-gold: 0 0 40px rgba(201, 168, 76, 0.1);
+            --shadow-heavy: 0 20px 60px rgba(0, 0, 0, 0.4);
+        }
+
+        html {
+            scroll-behavior: smooth;
+            overflow-x: hidden;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--royal-navy);
+            color: var(--text-white);
+            overflow-x: hidden;
+            line-height: 1.7;
+        }
+
+        /* ============================================
+           SCROLL ANIMATIONS
+           ============================================ */
+        .reveal {
+            opacity: 0;
+            transform: translateY(60px);
+            transition: all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .reveal-left {
+            opacity: 0;
+            transform: translateX(-80px);
+            transition: all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+
+        .reveal-left.active {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .reveal-right {
+            opacity: 0;
+            transform: translateX(80px);
+            transition: all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+
+        .reveal-right.active {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .reveal-scale {
+            opacity: 0;
+            transform: scale(0.8);
+            transition: all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+
+        .reveal-scale.active {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        .stagger-1 { transition-delay: 0.1s; }
+        .stagger-2 { transition-delay: 0.2s; }
+        .stagger-3 { transition-delay: 0.3s; }
+        .stagger-4 { transition-delay: 0.4s; }
+        .stagger-5 { transition-delay: 0.5s; }
+        .stagger-6 { transition-delay: 0.6s; }
+        .stagger-7 { transition-delay: 0.7s; }
+
+        /* ============================================
+           NAVIGATION
+           ============================================ */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 9999;
+            padding: 20px 0;
+            transition: all 0.4s ease;
+            background: transparent;
+        }
+
+        .navbar.scrolled {
+            background: rgba(10, 10, 26, 0.95);
+            backdrop-filter: blur(20px);
+            padding: 12px 0;
+            border-bottom: 1px solid var(--glass-border);
+            box-shadow: 0 5px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+        }
+
+        .nav-logo-icon {
+            width: 45px;
+            height: 45px;
+            background: linear-gradient(135deg, var(--royal-gold), var(--royal-gold-dark));
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Playfair Display', serif;
+            font-weight: 800;
+            font-size: 1.4rem;
+            color: var(--royal-navy);
+        }
+
+        .nav-logo-text {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--royal-gold);
+            letter-spacing: 1px;
+        }
+
+        .nav-logo-sub {
+            font-family: 'Inter', sans-serif;
+            font-size: 0.6rem;
+            color: var(--text-muted);
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            display: block;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 35px;
+            list-style: none;
+            align-items: center;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--text-cream);
+            font-size: 0.85rem;
+            font-weight: 500;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            position: relative;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--royal-gold);
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: var(--royal-gold);
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .nav-cta {
+            background: linear-gradient(135deg, var(--royal-gold), var(--royal-gold-dark));
+            color: var(--royal-navy) !important;
+            padding: 12px 28px;
+            border-radius: 50px;
+            font-weight: 700 !important;
+            letter-spacing: 1px;
+            transition: all 0.3s ease !important;
+            box-shadow: 0 5px 20px rgba(201, 168, 76, 0.3);
+        }
+
+        .nav-cta::after {
+            display: none !important;
+        }
+
+        .nav-cta:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 30px rgba(201, 168, 76, 0.5) !important;
+            color: var(--royal-navy) !important;
+        }
+
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+            gap: 6px;
+            z-index: 10001;
+        }
+
+        .hamburger span {
+            width: 28px;
+            height: 2px;
+            background: var(--royal-gold);
+            transition: all 0.3s ease;
+        }
+
+        .hamburger.active span:nth-child(1) {
+            transform: rotate(45deg) translate(5px, 5px);
+        }
+
+        .hamburger.active span:nth-child(2) {
+            opacity: 0;
+        }
+
+        .hamburger.active span:nth-child(3) {
+            transform: rotate(-45deg) translate(7px, -6px);
+        }
+
+        /* ============================================
+           TRUST BAR
+           ============================================ */
+        .trust-bar {
+            background: linear-gradient(90deg, var(--royal-gold-dark), var(--royal-gold), var(--royal-gold-dark));
+            padding: 10px 0;
+            overflow: hidden;
+        }
+
+        .trust-bar-content {
+            display: flex;
+            align-items: center;
+            gap: 60px;
+            animation: scrollTrust 20s linear infinite;
+            white-space: nowrap;
+        }
+
+        .trust-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: var(--royal-navy);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .trust-item i {
+            font-size: 1rem;
+        }
+
+        @keyframes scrollTrust {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+
+        /* ============================================
+           HERO SECTION
+           ============================================ */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+            background: linear-gradient(135deg, #0a0a1a 0%, #1a0a2e 30%, #0d1b2a 60%, #0a0a1a 100%);
+        }
+
+        .hero-bg-pattern {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                radial-gradient(ellipse at 20% 50%, rgba(201, 168, 76, 0.05) 0%, transparent 50%),
+                radial-gradient(ellipse at 80% 20%, rgba(74, 14, 46, 0.1) 0%, transparent 50%),
+                radial-gradient(ellipse at 60% 80%, rgba(26, 10, 46, 0.2) 0%, transparent 50%);
+            pointer-events: none;
+        }
+
+        .hero-particles {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            overflow: hidden;
+        }
+
+        .particle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: var(--royal-gold);
+            border-radius: 50%;
+            opacity: 0;
+            animation: floatParticle 8s ease-in-out infinite;
+        }
+
+        .particle:nth-child(1) { left: 10%; top: 20%; animation-delay: 0s; animation-duration: 7s; }
+        .particle:nth-child(2) { left: 20%; top: 60%; animation-delay: 1s; animation-duration: 9s; }
+        .particle:nth-child(3) { left: 35%; top: 40%; animation-delay: 2s; animation-duration: 6s; }
+        .particle:nth-child(4) { left: 50%; top: 80%; animation-delay: 0.5s; animation-duration: 8s; }
+        .particle:nth-child(5) { left: 65%; top: 30%; animation-delay: 1.5s; animation-duration: 10s; }
+        .particle:nth-child(6) { left: 75%; top: 70%; animation-delay: 3s; animation-duration: 7s; }
+        .particle:nth-child(7) { left: 85%; top: 15%; animation-delay: 2.5s; animation-duration: 9s; }
+        .particle:nth-child(8) { left: 90%; top: 55%; animation-delay: 0.8s; animation-duration: 6s; }
+        .particle:nth-child(9) { left: 45%; top: 10%; animation-delay: 1.8s; animation-duration: 11s; }
+        .particle:nth-child(10) { left: 55%; top: 90%; animation-delay: 3.5s; animation-duration: 8s; }
+
+        @keyframes floatParticle {
+            0%, 100% { opacity: 0; transform: translateY(0) scale(1); }
+            25% { opacity: 0.6; }
+            50% { opacity: 0.3; transform: translateY(-100px) scale(1.5); }
+            75% { opacity: 0.6; }
+        }
+
+        .hero-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 140px 40px 80px;
+            display: grid;
+            grid-template-columns: 1.2fr 0.8fr;
+            gap: 80px;
+            align-items: center;
+            position: relative;
+            z-index: 2;
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background: rgba(201, 168, 76, 0.1);
+            border: 1px solid rgba(201, 168, 76, 0.3);
+            padding: 8px 20px;
+            border-radius: 50px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: var(--royal-gold);
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 30px;
+            animation: badgePulse 3s ease-in-out infinite;
+        }
+
+        @keyframes badgePulse {
+            0%, 100% { box-shadow: 0 0 0 0 rgba(201, 168, 76, 0.2); }
+            50% { box-shadow: 0 0 0 10px rgba(201, 168, 76, 0); }
+        }
+
+        .hero-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 4rem;
+            font-weight: 800;
+            line-height: 1.15;
+            margin-bottom: 25px;
+            color: var(--text-white);
+        }
+
+        .hero-title .highlight {
+            color: var(--royal-gold);
+            position: relative;
+        }
+
+        .hero-title .highlight::after {
+            content: '';
+            position: absolute;
+            bottom: 5px;
+            left: 0;
+            width: 100%;
+            height: 8px;
+            background: rgba(201, 168, 76, 0.2);
+            z-index: -1;
+        }
+
+        .hero-subtitle {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.35rem;
+            font-weight: 400;
+            line-height: 1.8;
+            color: var(--text-cream);
+            margin-bottom: 20px;
+            font-style: italic;
+        }
+
+        .hero-text {
+            font-size: 1rem;
+            line-height: 1.9;
+            color: var(--text-muted);
+            margin-bottom: 40px;
+            max-width: 580px;
+        }
+
+        .hero-cta-group {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+            flex-wrap: wrap;
+            margin-bottom: 50px;
+        }
+
+        .btn-primary {
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            background: linear-gradient(135deg, var(--royal-gold), var(--royal-gold-dark));
+            color: var(--royal-navy);
+            padding: 18px 40px;
+            border-radius: 50px;
+            font-size: 0.9rem;
+            font-weight: 700;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            text-decoration: none;
+            transition: all 0.4s ease;
+            box-shadow: 0 8px 30px rgba(201, 168, 76, 0.3);
+            border: none;
+            cursor: pointer;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 40px rgba(201, 168, 76, 0.5);
+        }
+
+        .btn-secondary {
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            background: transparent;
+            color: var(--royal-gold);
+            padding: 18px 40px;
+            border-radius: 50px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            text-decoration: none;
+            transition: all 0.4s ease;
+            border: 2px solid rgba(201, 168, 76, 0.4);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(201, 168, 76, 0.1);
+            border-color: var(--royal-gold);
+            transform: translateY(-3px);
+        }
+
+        .hero-stats {
+            display: flex;
+            gap: 40px;
+        }
+
+        .hero-stat {
+            text-align: center;
+        }
+
+        .hero-stat-number {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: var(--royal-gold);
+            line-height: 1;
+        }
+
+        .hero-stat-label {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-top: 5px;
+        }
+
+        .hero-image-section {
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .hero-image-frame {
+            position: relative;
+            width: 380px;
+            height: 460px;
+            border-radius: 20px;
+            overflow: hidden;
+            border: 3px solid rgba(201, 168, 76, 0.3);
+            box-shadow: var(--shadow-heavy), var(--shadow-gold);
+        }
+
+        .hero-image-frame img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .hero-image-glow {
+            position: absolute;
+            top: -20px;
+            left: -20px;
+            right: -20px;
+            bottom: -20px;
+            border-radius: 30px;
+            background: radial-gradient(ellipse, rgba(201, 168, 76, 0.1) 0%, transparent 70%);
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .hero-float-badge {
+            position: absolute;
+            background: rgba(26, 26, 62, 0.9);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            border-radius: 15px;
+            padding: 15px 20px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            animation: floatBadge 4s ease-in-out infinite;
+        }
+
+        .hero-float-badge.top-left {
+            top: -20px;
+            left: -40px;
+            animation-delay: 0s;
+        }
+
+        .hero-float-badge.bottom-right {
+            bottom: -20px;
+            right: -40px;
+            animation-delay: 2s;
+        }
+
+        .float-badge-icon {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, var(--royal-gold), var(--royal-gold-dark));
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--royal-navy);
+            font-size: 1.1rem;
+        }
+
+        .float-badge-text {
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: var(--text-cream);
+        }
+
+        .float-badge-sub {
+            font-size: 0.65rem;
+            color: var(--text-muted);
+        }
+
+        @keyframes floatBadge {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-15px); }
+        }
+
+        /* ============================================
+           SECTION COMMON STYLES
+           ============================================ */
+        .section {
+            padding: 120px 0;
+            position: relative;
+        }
+
+        .section-dark {
+            background: linear-gradient(180deg, var(--royal-navy) 0%, var(--royal-navy-light) 50%, var(--royal-navy) 100%);
+        }
+
+        .section-gradient {
+            background: linear-gradient(135deg, var(--royal-navy) 0%, var(--royal-purple) 50%, var(--royal-deep-blue) 100%);
+        }
+
+        .section-deep {
+            background: linear-gradient(180deg, var(--royal-deep-blue) 0%, var(--royal-navy) 100%);
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 40px;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 80px;
+        }
+
+        .section-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(201, 168, 76, 0.1);
+            border: 1px solid rgba(201, 168, 76, 0.2);
+            padding: 8px 20px;
+            border-radius: 50px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            color: var(--royal-gold);
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            margin-bottom: 20px;
+        }
+
+        .section-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 3rem;
+            font-weight: 800;
+            line-height: 1.2;
+            margin-bottom: 20px;
+            color: var(--text-white);
+        }
+
+        .section-title .gold {
+            color: var(--royal-gold);
+        }
+
+        .section-subtitle {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.2rem;
+            font-style: italic;
+            color: var(--text-muted);
+            max-width: 700px;
+            margin: 0 auto;
+            line-height: 1.8;
+        }
+
+        .section-divider {
+            width: 80px;
+            height: 3px;
+            background: linear-gradient(90deg, transparent, var(--royal-gold), transparent);
+            margin: 25px auto;
+        }
+
+        /* ============================================
+           PROBLEM SECTION
+           ============================================ */
+        .problem-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: center;
+        }
+
+        .problem-content h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 25px;
+            color: var(--text-white);
+        }
+
+        .problem-content p {
+            font-size: 1.05rem;
+            line-height: 1.9;
+            color: var(--text-cream);
+            margin-bottom: 20px;
+        }
+
+        .problem-stats-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 25px;
+        }
+
+        .problem-stat-card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            padding: 30px;
+            text-align: center;
+            transition: all 0.4s ease;
+        }
+
+        .problem-stat-card:hover {
+            transform: translateY(-8px);
+            border-color: var(--royal-gold);
+            box-shadow: var(--shadow-gold);
+        }
+
+        .problem-stat-icon {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, rgba(201, 168, 76, 0.2), rgba(201, 168, 76, 0.05));
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 15px;
+            color: var(--royal-gold);
+            font-size: 1.3rem;
+        }
+
+        .problem-stat-number {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.2rem;
+            font-weight: 800;
+            color: var(--royal-gold);
+            margin-bottom: 5px;
+        }
+
+        .problem-stat-text {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* ============================================
+           WHAT WE DO SECTION
+           ============================================ */
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+        }
+
+        .service-card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            padding: 40px 30px;
+            transition: all 0.5s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .service-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, var(--royal-gold), var(--royal-gold-dark));
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.5s ease;
+        }
+
+        .service-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .service-card:hover {
+            transform: translateY(-10px);
+            border-color: rgba(201, 168, 76, 0.3);
+            box-shadow: var(--shadow-gold), var(--shadow-heavy);
+        }
+
+        .service-icon {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, rgba(201, 168, 76, 0.15), rgba(201, 168, 76, 0.05));
+            border-radius: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--royal-gold);
+            font-size: 1.5rem;
+            margin-bottom: 25px;
+            transition: all 0.4s ease;
+        }
+
+        .service-card:hover .service-icon {
+            background: linear-gradient(135deg, var(--royal-gold), var(--royal-gold-dark));
+            color: var(--royal-navy);
+            transform: scale(1.1);
+        }
+
+        .service-card h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin-bottom: 15px;
+            color: var(--text-white);
+        }
+
+        .service-card p {
+            font-size: 0.95rem;
+            line-height: 1.8;
+            color: var(--text-muted);
+        }
+
+        .service-card .service-list {
+            list-style: none;
+            margin-top: 20px;
+        }
+
+        .service-card .service-list li {
+            font-size: 0.85rem;
+            color: var(--text-cream);
+            padding: 6px 0;
+            padding-left: 20px;
+            position: relative;
+        }
+
+        .service-card .service-list li::before {
+            content: '✦';
+            position: absolute;
+            left: 0;
+            color: var(--royal-gold);
+            font-size: 0.7rem;
+        }
+
+        /* ============================================
+           HOW IT WORKS SECTION
+           ============================================ */
+        .process-timeline {
+            position: relative;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .process-timeline::before {
+            content: '';
+            position: absolute;
+            left: 50%;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: linear-gradient(180deg, transparent, var(--royal-gold), transparent);
+            transform: translateX(-50%);
+        }
+
+        .process-step {
+            display: flex;
+            align-items: center;
+            gap: 60px;
+            margin-bottom: 60px;
+            position: relative;
+        }
+
+        .process-step:nth-child(even) {
+            flex-direction: row-reverse;
+        }
+
+        .process-step-content {
+            flex: 1;
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            padding: 35px;
+            transition: all 0.4s ease;
+        }
+
+        .process-step-content:hover {
+            border-color: rgba(201, 168, 76, 0.3);
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-gold);
+        }
+
+        .process-step-number {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, var(--royal-gold), var(--royal-gold-dark));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Playfair Display', serif;
+            font-size: 1.3rem;
+            font-weight: 800;
+            color: var(--royal-navy);
+            flex-shrink: 0;
+            position: relative;
+            z-index: 2;
+            box-shadow: 0 0 30px rgba(201, 168, 76, 0.3);
+        }
+
+        .process-step-content h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin-bottom: 12px;
+            color: var(--royal-gold);
+        }
+
+        .process-step-content p {
+            font-size: 0.95rem;
+            line-height: 1.8;
+            color: var(--text-cream);
+        }
+
+        /* ============================================
+           WHY CHOOSE US SECTION
+           ============================================ */
+        .why-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 30px;
+        }
+
+        .why-card {
+            display: flex;
+            gap: 20px;
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            padding: 35px;
+            transition: all 0.5s ease;
+        }
+
+        .why-card:hover {
+            border-color: rgba(201, 168, 76, 0.3);
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-gold);
+        }
+
+        .why-icon {
+            width: 55px;
+            height: 55px;
+            min-width: 55px;
+            background: linear-gradient(135deg, rgba(201, 168, 76, 0.15), rgba(201, 168, 76, 0.05));
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--royal-gold);
+            font-size: 1.3rem;
+        }
+
+        .why-card h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.15rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+            color: var(--text-white);
+        }
+
+        .why-card p {
+            font-size: 0.9rem;
+            line-height: 1.8;
+            color: var(--text-muted);
+        }
+
+        /* ============================================
+           ABOUT / FOUNDER SECTION
+           ============================================ */
+        .founder-grid {
+            display: grid;
+            grid-template-columns: 0.8fr 1.2fr;
+            gap: 80px;
+            align-items: center;
+        }
+
+        .founder-image-section {
+            position: relative;
+        }
+
+        .founder-image-wrapper {
+            position: relative;
+            border-radius: 20px;
+            overflow: hidden;
+            border: 3px solid rgba(201, 168, 76, 0.3);
+            box-shadow: var(--shadow-heavy);
+        }
+
+        .founder-image-wrapper img {
+            width: 100%;
+            height: 500px;
+            object-fit: cover;
+            display: block;
+        }
+
+        .founder-image-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            padding: 30px;
+            background: linear-gradient(transparent, rgba(10, 10, 26, 0.9));
+        }
+
+        .founder-image-overlay h4 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--royal-gold);
+        }
+
+        .founder-image-overlay p {
+            font-size: 0.8rem;
+            color: var(--text-cream);
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        .founder-experience-badge {
+            position: absolute;
+            top: -15px;
+            right: -15px;
+            width: 100px;
+            height: 100px;
+            background: linear-gradient(135deg, var(--royal-gold), var(--royal-gold-dark));
+            border-radius: 50%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 10px 30px rgba(201, 168, 76, 0.4);
+            z-index: 2;
+        }
+
+        .founder-experience-badge .number {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.8rem;
+            font-weight: 800;
+            color: var(--royal-navy);
+            line-height: 1;
+        }
+
+        .founder-experience-badge .label {
+            font-size: 0.55rem;
+            font-weight: 700;
+            color: var(--royal-navy);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            text-align: center;
+        }
+
+        .founder-content h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 10px;
+            color: var(--text-white);
+        }
+
+        .founder-content .founder-title {
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--royal-gold);
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            margin-bottom: 25px;
+        }
+
+        .founder-content p {
+            font-size: 1.05rem;
+            line-height: 1.9;
+            color: var(--text-cream);
+            margin-bottom: 20px;
+        }
+
+        .founder-quote {
+            background: rgba(201, 168, 76, 0.08);
+            border-left: 4px solid var(--royal-gold);
+            padding: 25px 30px;
+            margin: 30px 0;
+            border-radius: 0 15px 15px 0;
+        }
+
+        .founder-quote p {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.3rem;
+            font-style: italic;
+            color: var(--royal-gold-light);
+            margin-bottom: 0;
+        }
+
+        .founder-values {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-top: 30px;
+        }
+
+        .founder-value-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 0.9rem;
+            color: var(--text-cream);
+        }
+
+        .founder-value-item i {
+            color: var(--royal-gold);
+            font-size: 0.8rem;
+        }
+
+        /* ============================================
+           FEATURED AUTHORS SECTION
+           ============================================ */
+        .authors-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 40px;
+        }
+
+        .author-card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            border-radius: 25px;
+            overflow: hidden;
+            transition: all 0.5s ease;
+        }
+
+        .author-card:hover {
+            transform: translateY(-10px);
+            border-color: rgba(201, 168, 76, 0.4);
+            box-shadow: 0 20px 60px rgba(201, 168, 76, 0.15), var(--shadow-heavy);
+        }
+
+        .author-card-header {
+            position: relative;
+            padding: 30px 30px 20px;
+            display: flex;
+            gap: 20px;
+            align-items: flex-start;
+        }
+
+        .author-photo-wrapper {
+            position: relative;
+            flex-shrink: 0;
+        }
+
+        .author-photo {
+            width: 90px;
+            height: 90px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid var(--royal-gold);
+            cursor: pointer;
+            transition: all 0.4s ease;
+        }
+
+        .author-photo:hover {
+            transform: scale(1.1);
+            box-shadow: 0 0 25px rgba(201, 168, 76, 0.4);
+        }
+
+        .author-verified {
+            position: absolute;
+            bottom: 2px;
+            right: 2px;
+            width: 24px;
+            height: 24px;
+            background: var(--royal-gold);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--royal-navy);
+            font-size: 0.6rem;
+            border: 2px solid var(--royal-navy);
+        }
+
+        .author-info h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--text-white);
+            margin-bottom: 5px;
+        }
+
+        .author-genre {
+            font-size: 0.75rem;
+            color: var(--royal-gold);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .author-email-link {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            transition: color 0.3s ease;
+        }
+
+        .author-email-link:hover {
+            color: var(--royal-gold);
+        }
+
+        .author-book-section {
+            padding: 0 30px;
+            display: flex;
+            gap: 20px;
+            align-items: flex-start;
+        }
+
+        .author-book-cover {
+            width: 120px;
+            height: 175px;
+            min-width: 120px;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+            transition: all 0.4s ease;
+            cursor: pointer;
+        }
+
+        .author-book-cover:hover {
+            transform: scale(1.05) rotate(-2deg);
+            box-shadow: 0 15px 40px rgba(201, 168, 76, 0.3);
+        }
+
+        .author-book-cover img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .author-book-info h4 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.05rem;
+            font-weight: 700;
+            color: var(--text-white);
+            margin-bottom: 8px;
+        }
+
+        .author-book-info p {
+            font-size: 0.85rem;
+            line-height: 1.7;
+            color: var(--text-muted);
+        }
+
+        .author-card-footer {
+            padding: 20px 30px 30px;
+            display: flex;
+            gap: 12px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .amazon-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: linear-gradient(135deg, #FF9900, #e88b00);
+            color: #000;
+            padding: 12px 24px;
+            border-radius: 50px;
+            font-size: 0.8rem;
+            font-weight: 700;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            letter-spacing: 0.5px;
+        }
+
+        .amazon-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(255, 153, 0, 0.4);
+        }
+
+        .amazon-btn img {
+            height: 18px;
+            width: auto;
+        }
+
+        .author-contact-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: transparent;
+            color: var(--royal-gold);
+            padding: 12px 24px;
+            border-radius: 50px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(201, 168, 76, 0.3);
+        }
+
+        .author-contact-btn:hover {
+            background: rgba(201, 168, 76, 0.1);
+            border-color: var(--royal-gold);
+        }
+
+        /* ============================================
+           TESTIMONIALS SECTION
+           ============================================ */
+        .testimonials-wrapper {
+            position: relative;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .testimonial-card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            border-radius: 25px;
+            padding: 50px;
+            text-align: center;
+            position: relative;
+        }
+
+        .testimonial-quote-icon {
+            font-size: 4rem;
+            color: rgba(201, 168, 76, 0.2);
+            font-family: 'Playfair Display', serif;
+            line-height: 1;
+            margin-bottom: 20px;
+        }
+
+        .testimonial-text {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.4rem;
+            font-style: italic;
+            line-height: 1.8;
+            color: var(--text-cream);
+            margin-bottom: 30px;
+        }
+
+        .testimonial-author {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+        }
+
+        .testimonial-author-photo {
+            width: 55px;
+            height: 55px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid var(--royal-gold);
+        }
+
+        .testimonial-author-name {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--royal-gold);
+        }
+
+        .testimonial-author-title {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+        }
+
+        .testimonial-dots {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 30px;
+        }
+
+        .testimonial-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: rgba(201, 168, 76, 0.2);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .testimonial-dot.active {
+            background: var(--royal-gold);
+            transform: scale(1.2);
+        }
+
+        /* ============================================
+           SERVICES DETAIL SECTION
+           ============================================ */
+        .services-detail-grid {
+            display: grid;
+            gap: 40px;
+        }
+
+        .service-detail-card {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 50px;
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            border-radius: 25px;
+            padding: 50px;
+            align-items: center;
+            transition: all 0.5s ease;
+        }
+
+        .service-detail-card:nth-child(even) {
+            direction: rtl;
+        }
+
+        .service-detail-card:nth-child(even) > * {
+            direction: ltr;
+        }
+
+        .service-detail-card:hover {
+            border-color: rgba(201, 168, 76, 0.3);
+            box-shadow: var(--shadow-gold);
+        }
+
+        .service-detail-number {
+            font-family: 'Playfair Display', serif;
+            font-size: 5rem;
+            font-weight: 800;
+            color: rgba(201, 168, 76, 0.1);
+            line-height: 1;
+            margin-bottom: 15px;
+        }
+
+        .service-detail-card h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--royal-gold);
+            margin-bottom: 15px;
+        }
+
+        .service-detail-card p {
+            font-size: 1rem;
+            line-height: 1.9;
+            color: var(--text-cream);
+            margin-bottom: 15px;
+        }
+
+        .service-detail-features {
+            list-style: none;
+        }
+
+        .service-detail-features li {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            font-size: 0.95rem;
+            color: var(--text-cream);
+            padding: 8px 0;
+        }
+
+        .service-detail-features li i {
+            color: var(--royal-gold);
+            margin-top: 4px;
+            font-size: 0.8rem;
+        }
+
+        .service-detail-visual {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .service-visual-item {
+            background: rgba(201, 168, 76, 0.05);
+            border: 1px solid rgba(201, 168, 76, 0.1);
+            border-radius: 15px;
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            transition: all 0.3s ease;
+        }
+
+        .service-visual-item:hover {
+            background: rgba(201, 168, 76, 0.1);
+            border-color: rgba(201, 168, 76, 0.3);
+        }
+
+        .service-visual-icon {
+            width: 45px;
+            height: 45px;
+            min-width: 45px;
+            background: linear-gradient(135deg, var(--royal-gold), var(--royal-gold-dark));
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--royal-navy);
+            font-size: 1rem;
+        }
+
+        .service-visual-text h4 {
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: var(--text-white);
+            margin-bottom: 3px;
+        }
+
+        .service-visual-text p {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            margin-bottom: 0;
+        }
+
+        /* ============================================
+           SUBMISSION / CONTACT SECTION
+           ============================================ */
+        .contact-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: start;
+        }
+
+        .contact-info h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 20px;
+            color: var(--text-white);
+        }
+
+        .contact-info p {
+            font-size: 1.05rem;
+            line-height: 1.9;
+            color: var(--text-cream);
+            margin-bottom: 30px;
+        }
+
+        .contact-method {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 15px;
+            padding: 20px 25px;
+            margin-bottom: 15px;
+            transition: all 0.3s ease;
+        }
+
+        .contact-method:hover {
+            border-color: rgba(201, 168, 76, 0.3);
+            box-shadow: var(--shadow-gold);
+        }
+
+        .contact-method-icon {
+            width: 50px;
+            height: 50px;
+            min-width: 50px;
+            background: linear-gradient(135deg, var(--royal-gold), var(--royal-gold-dark));
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--royal-navy);
+            font-size: 1.2rem;
+        }
+
+        .contact-method h4 {
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: var(--text-white);
+            margin-bottom: 3px;
+        }
+
+        .contact-method p {
+            font-size: 0.85rem;
+            color: var(--royal-gold);
+            margin-bottom: 0;
+        }
+
+        .contact-method a {
+            color: var(--royal-gold);
+            text-decoration: none;
+        }
+
+        .contact-method a:hover {
+            text-decoration: underline;
+        }
+
+        .contact-form-wrapper {
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            border-radius: 25px;
+            padding: 45px;
+        }
+
+        .contact-form-wrapper h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--royal-gold);
+            margin-bottom: 25px;
+            text-align: center;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: var(--text-cream);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 8px;
+        }
+
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            width: 100%;
+            padding: 15px 20px;
+            background: rgba(10, 10, 26, 0.6);
+            border: 1px solid rgba(201, 168, 76, 0.15);
+            border-radius: 12px;
+            color: var(--text-white);
+            font-family: 'Inter', sans-serif;
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
+            outline: none;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus,
+        .form-group select:focus {
+            border-color: var(--royal-gold);
+            box-shadow: 0 0 20px rgba(201, 168, 76, 0.1);
+        }
+
+        .form-group textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+
+        .form-group select option {
+            background: var(--royal-navy);
+            color: var(--text-white);
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+
+        .form-submit {
+            width: 100%;
+            padding: 18px;
+            background: linear-gradient(135deg, var(--royal-gold), var(--royal-gold-dark));
+            border: none;
+            border-radius: 50px;
+            color: var(--royal-navy);
+            font-family: 'Inter', sans-serif;
+            font-size: 0.95rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            cursor: pointer;
+            transition: all 0.4s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .form-submit:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(201, 168, 76, 0.4);
+        }
+
+        /* ============================================
+           GUIDELINES / FAQ SECTION
+           ============================================ */
+        .guidelines-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 50px;
+        }
+
+        .guideline-card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            padding: 35px;
+        }
+
+        .guideline-card h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--royal-gold);
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .guideline-card p {
+            font-size: 0.95rem;
+            line-height: 1.8;
+            color: var(--text-cream);
+        }
+
+        .faq-item {
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            border-radius: 15px;
+            margin-bottom: 15px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .faq-question {
+            padding: 22px 30px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: all 0.3s ease;
+        }
+
+        .faq-question:hover {
+            background: rgba(201, 168, 76, 0.05);
+        }
+
+        .faq-question h4 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.05rem;
+            font-weight: 600;
+            color: var(--text-white);
+        }
+
+        .faq-question i {
+            color: var(--royal-gold);
+            transition: transform 0.3s ease;
+        }
+
+        .faq-item.active .faq-question i {
+            transform: rotate(180deg);
+        }
+
+        .faq-answer {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s ease;
+        }
+
+        .faq-item.active .faq-answer {
+            max-height: 300px;
+        }
+
+        .faq-answer p {
+            padding: 0 30px 22px;
+            font-size: 0.95rem;
+            line-height: 1.8;
+            color: var(--text-muted);
+        }
+
+        /* ============================================
+           LARGE CTA / BANNER SECTION
+           ============================================ */
+        .cta-banner {
+            position: relative;
+            padding: 100px 0;
+            overflow: hidden;
+            background: linear-gradient(135deg, var(--royal-purple), var(--royal-burgundy), var(--royal-deep-blue));
+        }
+
+        .cta-banner::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23c9a84c' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+            opacity: 0.5;
+        }
+
+        .cta-banner-content {
+            text-align: center;
+            position: relative;
+            z-index: 2;
+        }
+
+        .cta-banner-content h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 3rem;
+            font-weight: 800;
+            color: var(--text-white);
+            margin-bottom: 20px;
+        }
+
+        .cta-banner-content p {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.3rem;
+            font-style: italic;
+            color: var(--text-cream);
+            max-width: 700px;
+            margin: 0 auto 15px;
+            line-height: 1.8;
+        }
+
+        .cta-email-display {
+            display: inline-flex;
+            align-items: center;
+            gap: 15px;
+            background: rgba(201, 168, 76, 0.1);
+            border: 2px solid rgba(201, 168, 76, 0.3);
+            padding: 20px 40px;
+            border-radius: 60px;
+            margin-top: 25px;
+            transition: all 0.4s ease;
+        }
+
+        .cta-email-display:hover {
+            border-color: var(--royal-gold);
+            box-shadow: 0 0 40px rgba(201, 168, 76, 0.2);
+        }
+
+        .cta-email-display i {
+            color: var(--royal-gold);
+            font-size: 1.5rem;
+        }
+
+        .cta-email-display a {
+            font-family: 'Inter', sans-serif;
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--royal-gold);
+            text-decoration: none;
+            letter-spacing: 1px;
+        }
+
+        /* ============================================
+           FOUNDER SECOND APPEARANCE
+           ============================================ */
+        .founder-mission-section {
+            display: grid;
+            grid-template-columns: 1.2fr 0.8fr;
+            gap: 60px;
+            align-items: center;
+        }
+
+        .mission-content h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 20px;
+            color: var(--text-white);
+        }
+
+        .mission-content p {
+            font-size: 1.05rem;
+            line-height: 1.9;
+            color: var(--text-cream);
+            margin-bottom: 20px;
+        }
+
+        .mission-image {
+            position: relative;
+        }
+
+        .mission-image img {
+            width: 100%;
+            height: 400px;
+            object-fit: cover;
+            border-radius: 20px;
+            border: 3px solid rgba(201, 168, 76, 0.3);
+        }
+
+        /* ============================================
+           POLICIES SECTION
+           ============================================ */
+        .policies-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 25px;
+        }
+
+        .policy-card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            padding: 30px;
+            text-align: center;
+            transition: all 0.4s ease;
+        }
+
+        .policy-card:hover {
+            border-color: rgba(201, 168, 76, 0.3);
+            transform: translateY(-5px);
+        }
+
+        .policy-icon {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, rgba(201, 168, 76, 0.15), rgba(201, 168, 76, 0.05));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 15px;
+            color: var(--royal-gold);
+            font-size: 1.3rem;
+        }
+
+        .policy-card h4 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1rem;
+            font-weight: 700;
+            color: var(--text-white);
+            margin-bottom: 8px;
+        }
+
+        .policy-card p {
+            font-size: 0.85rem;
+            line-height: 1.7;
+            color: var(--text-muted);
+        }
+
+        /* ============================================
+           FOOTER
+           ============================================ */
+        .footer {
+            background: linear-gradient(180deg, var(--royal-navy), #050510);
+            padding: 80px 0 30px;
+            border-top: 1px solid var(--glass-border);
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 1.5fr 1fr 1fr 1fr;
+            gap: 50px;
+            margin-bottom: 60px;
+        }
+
+        .footer-brand .footer-logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .footer-brand .footer-logo-icon {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, var(--royal-gold), var(--royal-gold-dark));
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Playfair Display', serif;
+            font-weight: 800;
+            font-size: 1.5rem;
+            color: var(--royal-navy);
+        }
+
+        .footer-brand .footer-logo-text {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--royal-gold);
+        }
+
+        .footer-brand p {
+            font-size: 0.9rem;
+            line-height: 1.8;
+            color: var(--text-muted);
+            margin-bottom: 20px;
+        }
+
+        .footer-founder-mini {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            background: rgba(201, 168, 76, 0.05);
+            border: 1px solid var(--glass-border);
+            border-radius: 12px;
+            padding: 12px 15px;
+        }
+
+        .footer-founder-mini img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid var(--royal-gold);
+        }
+
+        .footer-founder-mini-info h5 {
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: var(--text-white);
+        }
+
+        .footer-founder-mini-info p {
+            font-size: 0.7rem;
+            color: var(--text-muted);
+            margin-bottom: 0;
+        }
+
+        .footer-col h4 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1rem;
+            font-weight: 700;
+            color: var(--royal-gold);
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .footer-col ul {
+            list-style: none;
+        }
+
+        .footer-col ul li {
+            margin-bottom: 12px;
+        }
+
+        .footer-col ul li a {
+            color: var(--text-muted);
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .footer-col ul li a:hover {
+            color: var(--royal-gold);
+            padding-left: 5px;
+        }
+
+        .footer-col ul li a i {
+            font-size: 0.7rem;
+            color: var(--royal-gold);
+        }
+
+        .footer-email-highlight {
+            background: rgba(201, 168, 76, 0.08);
+            border: 1px solid rgba(201, 168, 76, 0.2);
+            border-radius: 12px;
+            padding: 15px;
+            margin-top: 15px;
+        }
+
+        .footer-email-highlight p {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            margin-bottom: 5px;
+        }
+
+        .footer-email-highlight a {
+            color: var(--royal-gold);
+            font-size: 0.85rem;
+            font-weight: 600;
+            text-decoration: none;
+        }
+
+        .footer-bottom {
+            border-top: 1px solid rgba(201, 168, 76, 0.1);
+            padding-top: 25px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .footer-bottom p {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+        }
+
+        .footer-bottom-links {
+            display: flex;
+            gap: 20px;
+        }
+
+        .footer-bottom-links a {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .footer-bottom-links a:hover {
+            color: var(--royal-gold);
+        }
+
+        /* ============================================
+           BACK TO TOP
+           ============================================ */
+        .back-to-top {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, var(--royal-gold), var(--royal-gold-dark));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--royal-navy);
+            font-size: 1.2rem;
+            cursor: pointer;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.4s ease;
+            z-index: 9990;
+            box-shadow: 0 5px 20px rgba(201, 168, 76, 0.3);
+            text-decoration: none;
+        }
+
+        .back-to-top.visible {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .back-to-top:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(201, 168, 76, 0.5);
+        }
+
+        /* ============================================
+           COUNTER ANIMATION
+           ============================================ */
+        .counter {
+            display: inline-block;
+        }
+
+        /* ============================================
+           RESPONSIVE DESIGN
+           ============================================ */
+        @media (max-width: 1200px) {
+            .hero-title {
+                font-size: 3.2rem;
+            }
+
+            .hero-container {
+                gap: 50px;
+            }
+        }
+
+        @media (max-width: 992px) {
+            .hero-container {
+                grid-template-columns: 1fr;
+                text-align: center;
+                padding-top: 120px;
+            }
+
+            .hero-text {
+                max-width: 100%;
+                margin: 0 auto 40px;
+            }
+
+            .hero-cta-group {
+                justify-content: center;
+            }
+
+            .hero-stats {
+                justify-content: center;
+            }
+
+            .hero-image-section {
+                order: -1;
+            }
+
+            .hero-image-frame {
+                width: 300px;
+                height: 370px;
+            }
+
+            .hero-float-badge.top-left {
+                left: 10px;
+            }
+
+            .hero-float-badge.bottom-right {
+                right: 10px;
+            }
+
+            .problem-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .services-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .founder-grid {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+
+            .founder-image-wrapper img {
+                height: 400px;
+            }
+
+            .founder-values {
+                justify-content: center;
+            }
+
+            .contact-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .service-detail-card {
+                grid-template-columns: 1fr;
+            }
+
+            .service-detail-card:nth-child(even) {
+                direction: ltr;
+            }
+
+            .guidelines-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .why-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .footer-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .founder-mission-section {
+                grid-template-columns: 1fr;
+            }
+
+            .policies-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .nav-links {
+                display: none;
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100vh;
+                background: rgba(10, 10, 26, 0.98);
+                backdrop-filter: blur(30px);
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                gap: 30px;
+                z-index: 10000;
+            }
+
+            .nav-links.active {
+                display: flex;
+            }
+
+            .hamburger {
+                display: flex;
+            }
+
+            .process-timeline::before {
+                left: 30px;
+            }
+
+            .process-step {
+                flex-direction: column !important;
+                padding-left: 70px;
+            }
+
+            .process-step-number {
+                position: absolute;
+                left: 0;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .hero-title {
+                font-size: 2.5rem;
+            }
+
+            .section-title {
+                font-size: 2.2rem;
+            }
+
+            .container {
+                padding: 0 20px;
+            }
+
+            .section {
+                padding: 80px 0;
+            }
+
+            .services-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .authors-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .problem-stats-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .hero-stats {
+                flex-wrap: wrap;
+            }
+
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+
+            .footer-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .footer-bottom {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .cta-banner-content h2 {
+                font-size: 2rem;
+            }
+
+            .cta-email-display {
+                padding: 15px 25px;
+            }
+
+            .cta-email-display a {
+                font-size: 0.9rem;
+            }
+
+            .policies-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .testimonial-card {
+                padding: 30px 20px;
+            }
+
+            .author-card-header {
+                flex-direction: column;
+                align-items: center;
+                text-align: center;
+            }
+
+            .author-book-section {
+                flex-direction: column;
+                align-items: center;
+                text-align: center;
+            }
+
+            .author-card-footer {
+                justify-content: center;
+            }
+
+            .hero-badge {
+                font-size: 0.6rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero-title {
+                font-size: 2rem;
+            }
+
+            .hero-image-frame {
+                width: 250px;
+                height: 310px;
+            }
+
+            .hero-float-badge {
+                display: none;
+            }
+
+            .nav-logo-text {
+                font-size: 1rem;
+            }
+
+            .hero-cta-group {
+                flex-direction: column;
+            }
+
+            .btn-primary, .btn-secondary {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ============================================
+         PRELOADER
+         ============================================ -->
+    <div id="preloader">
+        <div class="preloader-book">
+            <div class="book-page"></div>
+            <div class="book-page"></div>
+            <div class="book-page"></div>
+        </div>
+        <div class="preloader-logo">MERCYWORLD</div>
+        <div class="preloader-tagline">Read Network</div>
+        <div class="preloader-spinner"></div>
+    </div>
+
+    <!-- ============================================
+         NAVIGATION
+         ============================================ -->
+    <nav class="navbar" id="navbar">
+        <div class="nav-container">
+            <a href="#home" class="nav-logo">
+                <div class="nav-logo-icon">M</div>
+                <div>
+                    <span class="nav-logo-text">Mercyworld</span>
+                    <span class="nav-logo-sub">Read Network</span>
+                </div>
+            </a>
+            <ul class="nav-links" id="navLinks">
+                <li><a href="#home" onclick="closeNav()">Home</a></li>
+                <li><a href="#about" onclick="closeNav()">About</a></li>
+                <li><a href="#services" onclick="closeNav()">Services</a></li>
+                <li><a href="#authors" onclick="closeNav()">Featured Authors</a></li>
+                <li><a href="#guidelines" onclick="closeNav()">Guidelines</a></li>
+                <li><a href="#contact" onclick="closeNav()" class="nav-cta">Submit Project</a></li>
+            </ul>
+            <div class="hamburger" id="hamburger" onclick="toggleNav()">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- ============================================
+         TRUST BAR
+         ============================================ -->
+    <div class="trust-bar" style="position:fixed;top:70px;left:0;width:100%;z-index:9997;display:none;" id="trustBar">
+        <div class="trust-bar-content">
+            <div class="trust-item"><i class="fas fa-shield-alt"></i> Fully Documented</div>
+            <div class="trust-item"><i class="fas fa-envelope"></i> Email Only Communication</div>
+            <div class="trust-item"><i class="fas fa-award"></i> Book Specialist Certified</div>
+            <div class="trust-item"><i class="fas fa-lock"></i> Secure & Transparent</div>
+            <div class="trust-item"><i class="fas fa-star"></i> Premium Marketing</div>
+            <div class="trust-item"><i class="fas fa-check-circle"></i> Results Driven</div>
+            <div class="trust-item"><i class="fas fa-shield-alt"></i> Fully Documented</div>
+            <div class="trust-item"><i class="fas fa-envelope"></i> Email Only Communication</div>
+            <div class="trust-item"><i class="fas fa-award"></i> Book Specialist Certified</div>
+            <div class="trust-item"><i class="fas fa-lock"></i> Secure & Transparent</div>
+            <div class="trust-item"><i class="fas fa-star"></i> Premium Marketing</div>
+            <div class="trust-item"><i class="fas fa-check-circle"></i> Results Driven</div>
+        </div>
+    </div>
+
+    <!-- ============================================
+         HERO SECTION
+         ============================================ -->
+    <section class="hero" id="home">
+        <div class="hero-bg-pattern"></div>
+        <div class="hero-particles">
+            <div class="particle"></div>
+            <div class="particle"></div>
+            <div class="particle"></div>
+            <div class="particle"></div>
+            <div class="particle"></div>
+            <div class="particle"></div>
+            <div class="particle"></div>
+            <div class="particle"></div>
+            <div class="particle"></div>
+            <div class="particle"></div>
+        </div>
+        <div class="hero-container">
+            <div class="hero-content">
+                <div class="hero-badge">
+                    <i class="fas fa-crown"></i>
+                    Professional Book Marketing Firm
+                </div>
+                <h1 class="hero-title">
+                    Strategic Book Marketing for <span class="highlight">Serious Authors</span> Who Demand Results.
+                </h1>
+                <p class="hero-subtitle">
+                    We do not simply promote books. We engineer visibility, build author authority, and create long-term sales systems that turn manuscripts into profitable brands.
+                </p>
+                <p class="hero-text">
+                    Founded and led by Matthew Raphael, a dedicated book specialist marketer with years of hands-on experience in the publishing and literary marketplace. Every project is handled with precision, professionalism, and complete documentation to ensure full transparency and measurable outcomes.
+                </p>
+                <div class="hero-cta-group">
+                    <a href="#contact" class="btn-primary">
+                        <i class="fas fa-paper-plane"></i> Submit Your Book Project
+                    </a>
+                    <a href="#services" class="btn-secondary">
+                        <i class="fas fa-th-list"></i> Explore Services
+                    </a>
+                </div>
+                <div class="hero-stats">
+                    <div class="hero-stat">
+                        <div class="hero-stat-number"><span class="counter" data-target="5">0</span>+</div>
+                        <div class="hero-stat-label">Authors Served</div>
+                    </div>
+                    <div class="hero-stat">
+                        <div class="hero-stat-number"><span class="counter" data-target="100">0</span>%</div>
+                        <div class="hero-stat-label">Documented</div>
+                    </div>
+                    <div class="hero-stat">
+                        <div class="hero-stat-number"><span class="counter" data-target="48">0</span>hr</div>
+                        <div class="hero-stat-label">Response Time</div>
+                    </div>
+                </div>
+            </div>
+            <div class="hero-image-section">
+                <div class="hero-image-glow"></div>
+                <div class="hero-image-frame">
+                    <img src="mercyworld.jpg" alt="Matthew Raphael - Founder of Mercyworld Read Network" loading="eager">
+                </div>
+                <div class="hero-float-badge top-left">
+                    <div class="float-badge-icon"><i class="fas fa-book-open"></i></div>
+                    <div>
+                        <div class="float-badge-text">Book Specialist</div>
+                        <div class="float-badge-sub">Certified Marketer</div>
+                    </div>
+                </div>
+                <div class="hero-float-badge bottom-right">
+                    <div class="float-badge-icon"><i class="fas fa-envelope"></i></div>
+                    <div>
+                        <div class="float-badge-text">Email Only</div>
+                        <div class="float-badge-sub">Full Documentation</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================
+         THE PROBLEM SECTION
+         ============================================ -->
+    <section class="section section-dark" id="problem">
+        <div class="container">
+            <div class="problem-grid">
+                <div class="problem-content reveal-left">
+                    <div class="section-badge"><i class="fas fa-exclamation-triangle"></i> The Reality</div>
+                    <h3>The Problem Most <span style="color:var(--royal-gold)">Authors Face</span></h3>
+                    <p>Thousands of books are published every single day. Tens of thousands per week. Hundreds of thousands per month. And the vast majority of them disappear into the noise.</p>
+                    <p>Not because the writing is bad. Not because the story is weak. Not because the author lacks talent. But because there is no system behind the book.</p>
+                    <p>No one is positioning it correctly. No one is optimizing the metadata. No one is building visibility before launch. No one is creating a campaign that reaches the right readers at the right time with the right message.</p>
+                    <p>The result? A beautiful book sitting on a shelf, digital or physical, with zero sales and zero momentum.</p>
+                    <p style="color:var(--royal-gold);font-weight:600;font-size:1.1rem;margin-top:25px;">This is the problem we solve.</p>
+                </div>
+                <div class="problem-stats-grid reveal-right">
+                    <div class="problem-stat-card stagger-1">
+                        <div class="problem-stat-icon"><i class="fas fa-books"></i></div>
+                        <div class="problem-stat-number"><span class="counter" data-target="4000">0</span>+</div>
+                        <div class="problem-stat-text">Books Published Daily</div>
+                    </div>
+                    <div class="problem-stat-card stagger-2">
+                        <div class="problem-stat-icon"><i class="fas fa-chart-line-down"></i></div>
+                        <div class="problem-stat-number"><span class="counter" data-target="90">0</span>%</div>
+                        <div class="problem-stat-text">Fail Without Marketing</div>
+                    </div>
+                    <div class="problem-stat-card stagger-3">
+                        <div class="problem-stat-icon"><i class="fas fa-eye-slash"></i></div>
+                        <div class="problem-stat-number"><span class="counter" data-target="80">0</span>%</div>
+                        <div class="problem-stat-text">Never Get Discovered</div>
+                    </div>
+                    <div class="problem-stat-card stagger-4">
+                        <div class="problem-stat-icon"><i class="fas fa-bullseye"></i></div>
+                        <div class="problem-stat-number"><span class="counter" data-target="10">0</span>%</div>
+                        <div class="problem-stat-text">Use Professional Marketing</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================
+         WHAT WE DO SECTION
+         ============================================ -->
+    <section class="section section-gradient" id="whatwedo">
+        <div class="container">
+            <div class="section-header reveal">
+                <div class="section-badge"><i class="fas fa-cog"></i> What We Do</div>
+                <h2 class="section-title">What We Do, <span class="gold">In Detail</span></h2>
+                <div class="section-divider"></div>
+                <p class="section-subtitle">We are a professional book marketing firm. Not a blog. Not a community. Not a social media page. A firm. Here is exactly what that means.</p>
+            </div>
+            <div class="services-grid">
+                <div class="service-card reveal stagger-1">
+                    <div class="service-icon"><i class="fas fa-search-plus"></i></div>
+                    <h3>Analyze Market Position</h3>
+                    <p>Before we do anything, we study your book. We look at your genre, your competition, your target reader, your current visibility, and your positioning.</p>
+                    <ul class="service-list">
+                        <li>Genre and competition analysis</li>
+                        <li>Target reader identification</li>
+                        <li>Visibility assessment</li>
+                        <li>Gap and opportunity mapping</li>
+                    </ul>
+                </div>
+                <div class="service-card reveal stagger-2">
+                    <div class="service-icon"><i class="fas fa-drafting-compass"></i></div>
+                    <h3>Build Custom Strategy</h3>
+                    <p>Based on our analysis, we create a detailed marketing plan specific to your book. This is not a generic template. This is a roadmap built from scratch.</p>
+                    <ul class="service-list">
+                        <li>Custom marketing blueprint</li>
+                        <li>Timeline and milestones</li>
+                        <li>Channel selection</li>
+                        <li>Message framework</li>
+                    </ul>
+                </div>
+                <div class="service-card reveal stagger-3">
+                    <div class="service-icon"><i class="fas fa-rocket"></i></div>
+                    <h3>Execute With Precision</h3>
+                    <p>We carry out every element of the strategy with full attention to detail. From description refinement to promotional campaigns to author brand building.</p>
+                    <ul class="service-list">
+                        <li>Campaign execution</li>
+                        <li>Description optimization</li>
+                        <li>Brand development</li>
+                        <li>Promotional management</li>
+                    </ul>
+                </div>
+                <div class="service-card reveal stagger-4">
+                    <div class="service-icon"><i class="fas fa-file-contract"></i></div>
+                    <h3>Document Everything</h3>
+                    <p>Every conversation, every decision, every update, every report is sent to you via email. There is no ambiguity. Everything is in writing. Always.</p>
+                    <ul class="service-list">
+                        <li>Full email documentation</li>
+                        <li>Progress reports</li>
+                        <li>Decision records</li>
+                        <li>Transparent communication</li>
+                    </ul>
+                </div>
+                <div class="service-card reveal stagger-5">
+                    <div class="service-icon"><i class="fas fa-chart-bar"></i></div>
+                    <h3>Deliver Measurable Results</h3>
+                    <p>We do not measure success by likes or followers. We measure it by visibility, positioning, sales momentum, and author credibility.</p>
+                    <ul class="service-list">
+                        <li>Visibility tracking</li>
+                        <li>Positioning metrics</li>
+                        <li>Sales momentum analysis</li>
+                        <li>Credibility assessment</li>
+                    </ul>
+                </div>
+                <div class="service-card reveal stagger-6">
+                    <div class="service-icon"><i class="fas fa-handshake"></i></div>
+                    <h3>Long Term Partnership</h3>
+                    <p>We do not just run a campaign and disappear. We build lasting partnerships with authors, ensuring continued growth and sustained book sales over time.</p>
+                    <ul class="service-list">
+                        <li>Ongoing support</li>
+                        <li>Strategy optimization</li>
+                        <li>Career guidance</li>
+                        <li>Growth planning</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================
+         HOW IT WORKS SECTION
+         ============================================ -->
+    <section class="section section-dark" id="process">
+        <div class="container">
+            <div class="section-header reveal">
+                <div class="section-badge"><i class="fas fa-list-ol"></i> Our Process</div>
+                <h2 class="section-title">The <span class="gold">Mercyworld Method</span></h2>
+                <div class="section-divider"></div>
+                <p class="section-subtitle">Every project that enters Mercyworld Read Network goes through a structured process. We do not believe in random marketing. We believe in systems.</p>
+            </div>
+            <div class="process-timeline">
+                <div class="process-step reveal-left">
+                    <div class="process-step-content">
+                        <h3>📩 Submit Your Project</h3>
+                        <p>You send a single email with your book details, your goals, and your information. No forms. No calls. No social media messages. One email to mercyworldreadnetwork@gmail.com. That is all it takes to begin.</p>
+                    </div>
+                    <div class="process-step-number">1</div>
+                </div>
+                <div class="process-step reveal-right">
+                    <div class="process-step-content">
+                        <h3>📋 We Review and Respond</h3>
+                        <p>Within 48 to 72 hours, you receive a detailed response. This is not a generic "we got your email" reply. This is a strategic assessment of your book and a proposed marketing direction built specifically for you.</p>
+                    </div>
+                    <div class="process-step-number">2</div>
+                </div>
+                <div class="process-step reveal-left">
+                    <div class="process-step-content">
+                        <h3>🎯 Strategy Development</h3>
+                        <p>If you want to move forward, we build a complete marketing strategy. This strategy is documented and sent to you via email. Every element is explained. Every timeline is clear. Every deliverable is defined.</p>
+                    </div>
+                    <div class="process-step-number">3</div>
+                </div>
+                <div class="process-step reveal-right">
+                    <div class="process-step-content">
+                        <h3>📝 Agreement and Documentation</h3>
+                        <p>Before any work begins, we send a formal project agreement via email. This agreement covers every deliverable, every expectation, and every term. Nothing begins without your written confirmation.</p>
+                    </div>
+                    <div class="process-step-number">4</div>
+                </div>
+                <div class="process-step reveal-left">
+                    <div class="process-step-content">
+                        <h3>🚀 Campaign Execution</h3>
+                        <p>Your campaign begins. Every update, every milestone, every report is delivered to your inbox. You always know where your project stands. Full transparency at every stage.</p>
+                    </div>
+                    <div class="process-step-number">5</div>
+                </div>
+                <div class="process-step reveal-right">
+                    <div class="process-step-content">
+                        <h3>📊 Review and Optimization</h3>
+                        <p>When the campaign period ends, we deliver a full performance review. We analyze results. We identify what worked. We plan the next phase if needed. Continuous improvement is built into our process.</p>
+                    </div>
+                    <div class="process-step-number">6</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================
+         WHY CHOOSE US SECTION
+         ============================================ -->
+    <section class="section section-gradient" id="whyus">
+        <div class="container">
+            <div class="section-header reveal">
+                <div class="section-badge"><i class="fas fa-trophy"></i> Why Choose Us</div>
+                <h2 class="section-title">Why Serious Authors Choose <span class="gold">Mercyworld</span></h2>
+                <div class="section-divider"></div>
+                <p class="section-subtitle">We are not for every author. We are for authors who understand that their book deserves more than luck. Here is why they choose us over everyone else.</p>
+            </div>
+            <div class="why-grid">
+                <div class="why-card reveal stagger-1">
+                    <div class="why-icon"><i class="fas fa-book-reader"></i></div>
+                    <div>
+                        <h3>We Are Not a General Marketing Agency</h3>
+                        <p>Mercyworld Read Network is a specialized book marketing firm. Every project is handled with direct oversight from Matthew Raphael, the founder and lead strategist. You are not a number. You are a project.</p>
+                    </div>
+                </div>
+                <div class="why-card reveal stagger-2">
+                    <div class="why-icon"><i class="fas fa-briefcase"></i></div>
+                    <div>
+                        <h3>We Treat Every Book Like a Business Asset</h3>
+                        <p>Your book is not just a creative achievement. It is a product. It has a market. It has competition. It has an audience. And it deserves a marketing strategy that treats it with the same seriousness as any other business product.</p>
+                    </div>
+                </div>
+                <div class="why-card reveal stagger-3">
+                    <div class="why-icon"><i class="fas fa-envelope-open-text"></i></div>
+                    <div>
+                        <h3>Full Documentation Through Email</h3>
+                        <p>Email creates a permanent, searchable, and accountable record of every decision, every update, and every agreement. No phone calls that get forgotten. No DMs that disappear. Everything is documented. Always.</p>
+                    </div>
+                </div>
+                <div class="why-card reveal stagger-4">
+                    <div class="why-icon"><i class="fas fa-fingerprint"></i></div>
+                    <div>
+                        <h3>We Do Not Use Templates</h3>
+                        <p>Every marketing strategy we build is created from scratch for your specific book. We do not copy and paste campaigns from one author to the next. Your book is unique. Your strategy should be too.</p>
+                    </div>
+                </div>
+                <div class="why-card reveal stagger-5">
+                    <div class="why-icon"><i class="fas fa-gem"></i></div>
+                    <div>
+                        <h3>We Are Selective About Who We Work With</h3>
+                        <p>We do not accept every project that comes through our inbox. We review each submission carefully. If we believe we cannot deliver meaningful results for your book, we will tell you honestly.</p>
+                    </div>
+                </div>
+                <div class="why-card reveal stagger-6">
+                    <div class="why-icon"><i class="fas fa-chess-king"></i></div>
+                    <div>
+                        <h3>We Focus on Long-Term Author Branding</h3>
+                        <p>Most marketing services focus on short-term spikes. We focus on building your author brand for the long term. Because one successful book is great, but a recognized author brand is a career.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================
+         ABOUT / FOUNDER SECTION
+         ============================================ -->
+    <section class="section section-dark" id="about">
+        <div class="container">
+            <div class="section-header reveal">
+                <div class="section-badge"><i class="fas fa-user-tie"></i> Meet The Founder</div>
+                <h2 class="section-title">The Mind Behind <span class="gold">Mercyworld</span></h2>
+                <div class="section-divider"></div>
+            </div>
+            <div class="founder-grid">
+                <div class="founder-image-section reveal-left">
+                    <div class="founder-image-wrapper">
+                        <img src="mercyworld.jpg" alt="Matthew Raphael - Book Specialist Marketer">
+                        <div class="founder-image-overlay">
+                            <h4>Matthew Raphael</h4>
+                            <p>Book Specialist Marketer | Founder</p>
+                        </div>
+                    </div>
+                    <div class="founder-experience-badge">
+                        <span class="number">5+</span>
+                        <span class="label">Years<br>Expert</span>
+                    </div>
+                </div>
+                <div class="founder-content reveal-right">
+                    <h2>Matthew Raphael</h2>
+                    <div class="founder-title">Book Specialist Marketer | Founder and Lead Strategist, Mercyworld Read Network</div>
+                    <p>Matthew Raphael did not start in marketing. He started in books. He has always believed that the world needs more great stories, and that those stories deserve to be found by the people who need them most.</p>
+                    <p>Over the years, Matthew developed deep expertise in book positioning, market analysis, promotional strategy, and audience targeting. He studied what makes books sell. Not just in theory, but in practice. He watched campaigns succeed and fail. He analyzed why some books gained traction while others with better writing did not.</p>
+                    <p>That knowledge became the foundation of Mercyworld Read Network. Today, Matthew leads every project personally. He reviews every submission. He builds every strategy. He sends every email. He ensures that every author who partners with Mercyworld Read Network receives the same level of attention, care, and professionalism.</p>
+                    <div class="founder-quote">
+                        <p>"Do not just promote a book. Position it. Brand it. Protect it. And then let the right readers find it."</p>
+                    </div>
+                    <div class="founder-values">
+                        <div class="founder-value-item"><i class="fas fa-check-circle"></i> Strategic Precision</div>
+                        <div class="founder-value-item"><i class="fas fa-check-circle"></i> Full Transparency</div>
+                        <div class="founder-value-item"><i class="fas fa-check-circle"></i> Email Documentation</div>
+                        <div class="founder-value-item"><i class="fas fa-check-circle"></i> Author Focused</div>
+                        <div class="founder-value-item"><i class="fas fa-check-circle"></i> Results Driven</div>
+                        <div class="founder-value-item"><i class="fas fa-check-circle"></i> Industry Expert</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================
+         CTA BANNER 1
+         ============================================ -->
+    <section class="cta-banner">
+        <div class="container">
+            <div class="cta-banner-content reveal-scale">
+                <h2>Your Book Deserves More Than Hope. It Deserves a <span style="color:var(--royal-gold)">Strategy.</span></h2>
+                <p>If you are an author who has invested months or years into your book, do not let it die in silence. Mercyworld Read Network is ready to build the marketing infrastructure your book needs.</p>
+                <p style="font-style:normal;font-family:'Inter',sans-serif;font-size:0.85rem;color:var(--text-muted);">For all inquiries including pricing and package details, email us. We respond within 48 to 72 hours.</p>
+                <div class="cta-email-display">
+                    <i class="fas fa-envelope"></i>
+                    <a href="mailto:mercyworldreadnetwork@gmail.com">mercyworldreadnetwork@gmail.com</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================
+         SERVICES DETAIL SECTION
+         ============================================ -->
+    <section class="section section-dark" id="services">
+        <div class="container">
+            <div class="section-header reveal">
+                <div class="section-badge"><i class="fas fa-concierge-bell"></i> Our Services</div>
+                <h2 class="section-title">Professional Book Marketing <span class="gold">Built Around Your Book</span></h2>
+                <div class="section-divider"></div>
+                <p class="section-subtitle">Every service is custom-built. No templates. No generic packages. Just strategic marketing systems designed to maximize your book's visibility, credibility, and sales potential. For pricing, email us at mercyworldreadnetwork@gmail.com.</p>
+            </div>
+            <div class="services-detail-grid">
+
+                <!-- Service 1 -->
+                <div class="service-detail-card reveal">
+                    <div>
+                        <div class="service-detail-number">01</div>
+                        <h3>Book Visibility Optimization</h3>
+                        <p>Before any promotion can work, your book must be discoverable. We ensure that every element of your book's online presence is optimized for maximum discovery by the readers who are most likely to buy it.</p>
+                        <p>Most authors publish their book and never touch the metadata again. Amazon's algorithm does not promote books that are not properly optimized. This service fixes that.</p>
+                        <ul class="service-detail-features">
+                            <li><i class="fas fa-check"></i> Book title and subtitle optimization</li>
+                            <li><i class="fas fa-check"></i> Description rewriting for conversion</li>
+                            <li><i class="fas fa-check"></i> Strategic keyword and category selection</li>
+                            <li><i class="fas fa-check"></i> Professional author bio development</li>
+                            <li><i class="fas fa-check"></i> Cover and visual presentation assessment</li>
+                            <li><i class="fas fa-check"></i> Competitive landscape review</li>
+                        </ul>
+                    </div>
+                    <div class="service-detail-visual">
+                        <div class="service-visual-item"><div class="service-visual-icon"><i class="fas fa-search"></i></div><div class="service-visual-text"><h4>Visibility Audit</h4><p>Complete analysis of current presence</p></div></div>
+                        <div class="service-visual-item"><div class="service-visual-icon"><i class="fas fa-pen-fancy"></i></div><div class="service-visual-text"><h4>Description Refinement</h4><p>Persuasive sales-focused rewriting</p></div></div>
+                        <div class="service-visual-item"><div class="service-visual-icon"><i class="fas fa-key"></i></div><div class="service-visual-text"><h4>Keyword Strategy</h4><p>Data-driven keyword selection</p></div></div>
+                        <div class="service-visual-item"><div class="service-visual-icon"><i class="fas fa-user-edit"></i></div><div class="service-visual-text"><h4>Author Bio</h4><p>Professional credibility building</p></div></div>
+                    </div>
+                </div>
+
+                <!-- Service 2 -->
+                <div class="service-detail-card reveal">
+                    <div>
+                        <div class="service-detail-number">02</div>
+                        <h3>Book Launch Campaign</h3>
+                        <p>A book launch is not a single event. It is a campaign. A successful launch requires pre-launch buzz, launch day visibility, and post-launch momentum. It requires a timeline, a strategy, and execution at every stage.</p>
+                        <p>We do not just "announce" your book. We build a complete launch infrastructure that positions your book for maximum impact during the most critical window of its lifecycle.</p>
+                        <ul class="service-detail-features">
+                            <li><i class="fas fa-check"></i> Pre-launch visibility strategy (2 to 4 weeks)</li>
+                            <li><i class="fas fa-check"></i> Launch week coordinated execution</li>
+                            <li><i class="fas fa-check"></i> Reviewer and influencer outreach</li>
+                            <li><i class="fas fa-check"></i> Post-launch momentum strategy</li>
+                            <li><i class="fas fa-check"></i> Weekly performance reports via email</li>
+                            <li><i class="fas fa-check"></i> Full campaign documentation</li>
+                        </ul>
+                    </div>
+                    <div class="service-detail-visual">
+                        <div class="service-visual-item"><div class="service-visual-icon"><i class="fas fa-bullhorn"></i></div><div class="service-visual-text"><h4>Pre-Launch Buzz</h4><p>Build anticipation before release</p></div></div>
+                        <div class="service-visual-item"><div class="service-visual-icon"><i class="fas fa-rocket"></i></div><div class="service-visual-text"><h4>Launch Execution</h4><p>Coordinated day-one strategy</p></div></div>
+                        <div class="service-visual-item"><div class="service-visual-icon"><i class="fas fa-users"></i></div><div class="service-visual-text"><h4>Reviewer Outreach</h4><p>Targeted influencer connections</p></div></div>
+                        <div class="service-visual-item"><div class="service-visual-icon"><i class="fas fa-chart-line"></i></div><div class="service-visual-text"><h4>Post-Launch Growth</h4><p>Sustained visibility beyond day one</p></div></div>
+                    </div>
+                </div>
+
+                <!-- Service 3 -->
+                <div class="service-detail-card reveal">
+                    <div>
+                        <div class="service-detail-number">03</div>
+                        <h3>Ongoing Book Promotion</h3>
+                        <p>Most books sell 80 percent of their copies in the first 30 days. After that, sales drop dramatically unless there is a sustained promotional effort in place. This service keeps your book selling month after month.</p>
+                        <p>This is not about running the same ad over and over. This is about building a rotating promotional engine that keeps your book in front of new readers continuously.</p>
+                        <ul class="service-detail-features">
+                            <li><i class="fas fa-check"></i> Monthly promotional campaigns</li>
+                            <li><i class="fas fa-check"></i> Continuous audience targeting and expansion</li>
+                            <li><i class="fas fa-check"></i> Review and rating generation strategy</li>
+                            <li><i class="fas fa-check"></i> Content and positioning updates</li>
+                            <li><i class="fas fa-check"></i> Monthly performance reports via email</li>
+                            <li><i class="fas fa-check"></i> Ongoing documentation of all activities</li>
+                        </ul>
+                    </div>
+                    <div class="service-detail-visual">
+                        <div class="service-visual-item"><div class="service-visual-icon"><i class="fas fa-sync-alt"></i></div><div class="service-visual-text"><h4>Monthly Campaigns</h4><p>Fresh promotional pushes each month</p></div></div>
+                        <div class="service-visual-item"><div class="service-visual-icon"><i class="fas fa-crosshairs"></i></div><div class="service-visual-text"><h4>Audience Expansion</h4><p>New reader segments identified</p></div></div>
+                        <div class="service-visual-item"><div class="service-visual-icon"><i class="fas fa-star"></i></div><div class="service-visual-text"><h4>Review Strategy</h4><p>Systematic honest review generation</p></div></div>
+                        <div class="service-visual-item"><div class="service-visual-icon"><i class="fas fa-clipboard-list"></i></div><div class="service-visual-text"><h4>Performance Reports</h4><p>Monthly detailed email reporting</p></div></div>
+                    </div>
+                </div>
+
+                <!-- Service 4 -->
+                <div class="service-detail-card reveal">
+                    <div>
+                        <div class="service-detail-number">04</div>
+                        <h3>Author Brand Development</h3>
+                        <p>Readers do not just buy books. They buy authors. When you see a new book by an author you love, you do not research the plot. You buy it. Because you trust the author. That trust is a brand. And most authors never build one.</p>
+                        <p>Author Brand Development is our service for authors who want to be more than a book title. You want to be a name. A brand. A voice that readers recognize.</p>
+                        <ul class="service-detail-features">
+                            <li><i class="fas fa-check"></i> Author positioning statement</li>
+                            <li><i class="fas fa-check"></i> Professional brand identity package</li>
+                            <li><i class="fas fa-check"></i> Author website strategy</li>
+                            <li><i class="fas fa-check"></i> Long-term content strategy</li>
+                            <li><i class="fas fa-check"></i> Credibility building plan</li>
+                            <li><i class="fas fa-check"></i> Quarterly brand review via email</li>
+                        </ul>
+                    </div>
+                    <div class="service-detail-visual">
+                        <div class="service-visual-item"><div class="service-visual-icon"><i class="fas fa-crown"></i></div><div class="service-visual-text"><h4>Brand Positioning</h4><p>Define your unique author identity</p></div></div>
+                        <div class="service-visual-item"><div class="service-visual-icon"><i class="fas fa-palette"></i></div><div class="service-visual-text"><h4>Visual Identity</h4><p>Consistent professional branding</p></div></div>
+                        <div class="service-visual-item"><div class="service-visual-icon"><i class="fas fa-globe"></i></div><div class="service-visual-text"><h4>Web Strategy</h4><p>Author website optimization</p></div></div>
+                        <div class="service-visual-item"><div class="service-visual-icon"><i class="fas fa-medal"></i></div><div class="service-visual-text"><h4>Credibility Building</h4><p>Media features and partnerships</p></div></div>
+                    </div>
+                </div>
+
+                <!-- Service 5 -->
+                <div class="service-detail-card reveal">
+                    <div>
+                        <div class="service-detail-number">05</div>
+                        <h3>Featured Author Placement</h3>
+                        <p>The Mercyworld Read Network website is a professional book marketing platform visited by authors, readers, and industry professionals. Featured Author Placement puts your book and profile directly in front of that audience.</p>
+                        <p>This is not an ad. This is a placement. Your book is featured on a professional platform alongside other authors we have vetted and promoted. It carries weight, credibility, and visibility.</p>
+                        <ul class="service-detail-features">
+                            <li><i class="fas fa-check"></i> Dedicated author profile page</li>
+                            <li><i class="fas fa-check"></i> Book cover and description display</li>
+                            <li><i class="fas fa-check"></i> Direct purchase link</li>
+                            <li><i class="fas fa-check"></i> Priority placement on Featured Authors page</li>
+                            <li><i class="fas fa-check"></i> Professional book description writing</li>
+                            <li><i class="fas fa-check"></i> Ongoing presence for agreement duration</li>
+                        </ul>
+                    </div>
+                    <div class="service-detail-visual">
+                        <div class="service-visual-item"><div class="service-visual-icon"><i class="fas fa-id-card"></i></div><div class="service-visual-text"><h4>Author Profile</h4><p>Dedicated page on our platform</p></div></div>
+                        <div class="service-visual-item"><div class="service-visual-icon"><i class="fas fa-image"></i></div><div class="service-visual-text"><h4>Book Display</h4><p>Professional cover and description</p></div></div>
+                        <div class="service-visual-item"><div class="service-visual-icon"><i class="fas fa-shopping-cart"></i></div><div class="service-visual-text"><h4>Purchase Link</h4><p>Direct link to buy your book</p></div></div>
+                        <div class="service-visual-item"><div class="service-visual-icon"><i class="fas fa-star"></i></div><div class="service-visual-text"><h4>Priority Position</h4><p>Maximum visibility placement</p></div></div>
+                    </div>
+                </div>
+
+                <!-- Service 6 -->
+                <div class="service-detail-card reveal">
+                    <div>
+                        <div class="service-detail-number">06</div>
+                        <h3>Complete Marketing Package</h3>
+                        <p>This is our most comprehensive offering. A full end-to-end marketing campaign that covers every aspect of your book's visibility and sales strategy. There are no gaps. There are no missing pieces.</p>
+                        <p>This is an integrated campaign where every element works together. Your visibility optimization feeds your launch. Your launch feeds your ongoing promotion. It is a system. And systems win.</p>
+                        <ul class="service-detail-features">
+                            <li><i class="fas fa-check"></i> All services combined into one campaign</li>
+                            <li><i class="fas fa-check"></i> Dedicated project management by Matthew Raphael</li>
+                            <li><i class="fas fa-check"></i> Weekly performance updates via email</li>
+                            <li><i class="fas fa-check"></i> Monthly strategy review</li>
+                            <li><i class="fas fa-check"></i> Full documentation of every phase</li>
+                            <li><i class="fas fa-check"></i> Priority response and handling</li>
+                        </ul>
+                    </div>
+                    <div class="service-detail-visual">
+                        <div class="service-visual-item"><div class="service-visual-icon"><i class="fas fa-layer-group"></i></div><div class="service-visual-text"><h4>All Services Combined</h4><p>Complete end-to-end coverage</p></div></div>
+                        <div class="service-visual-item"><div class="service-visual-icon"><i class="fas fa-user-shield"></i></div><div class="service-visual-text"><h4>Personal Management</h4><p>Direct oversight by Matthew Raphael</p></div></div>
+                        <div class="service-visual-item"><div class="service-visual-icon"><i class="fas fa-envelope-open"></i></div><div class="service-visual-text"><h4>Weekly Updates</h4><p>Consistent email reporting</p></div></div>
+                        <div class="service-visual-item"><div class="service-visual-icon"><i class="fas fa-infinity"></i></div><div class="service-visual-text"><h4>Integrated System</h4><p>Every element works together</p></div></div>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="reveal" style="text-align:center;margin-top:60px;">
+                <p style="color:var(--text-muted);font-size:1rem;margin-bottom:20px;">For pricing and package details on any of our services, please email us.</p>
+                <a href="mailto:mercyworldreadnetwork@gmail.com" class="btn-primary"><i class="fas fa-envelope"></i> Email Us For Pricing</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================
+         FEATURED AUTHORS SECTION
+         ============================================ -->
+    <section class="section section-gradient" id="authors">
+        <div class="container">
+            <div class="section-header reveal">
+                <div class="section-badge"><i class="fas fa-users"></i> Featured Authors</div>
+                <h2 class="section-title">Authors We Have <span class="gold">Proudly Represented</span></h2>
+                <div class="section-divider"></div>
+                <p class="section-subtitle">These are authors whose books we have strategically marketed, professionally positioned, and promoted through the Mercyworld Read Network. Each one trusted us with their project.</p>
+            </div>
+            <div class="authors-grid">
+
+                <!-- Author 1: James Patterson -->
+                <div class="author-card reveal stagger-1">
+                    <div class="author-card-header">
+                        <div class="author-photo-wrapper">
+                            <a href="https://www.amazon.com/stores/author/B000APZGGS" target="_blank">
+                                <img src="James patterson pics.jpg" alt="James Patterson" class="author-photo">
+                            </a>
+                            <div class="author-verified"><i class="fas fa-check"></i></div>
+                        </div>
+                        <div class="author-info">
+                            <h3>James Patterson</h3>
+                            <div class="author-genre">Bestselling Fiction</div>
+                            <a href="mailto:authorjamespatterson@zohomail.com" class="author-email-link">
+                                <i class="fas fa-envelope"></i> authorjamespatterson@zohomail.com
+                            </a>
+                        </div>
+                    </div>
+                    <div class="author-book-section">
+                        <a href="https://www.amazon.com/stores/author/B000APZGGS" target="_blank" class="author-book-cover">
+                            <img src="James patterson book.jpg" alt="James Patterson Book">
+                        </a>
+                        <div class="author-book-info">
+                            <h4>Featured Book</h4>
+                            <p>A masterfully crafted story that captivates readers from the very first page. Experience the storytelling genius that has made James Patterson one of the most recognized names in literature.</p>
+                        </div>
+                    </div>
+                    <div class="author-card-footer">
+                        <a href="https://www.amazon.com/stores/author/B000APZGGS" target="_blank" class="amazon-btn">
+                            <i class="fab fa-amazon"></i> View on Amazon
+                        </a>
+                        <a href="mailto:authorjamespatterson@zohomail.com" class="author-contact-btn">
+                            <i class="fas fa-envelope"></i> Contact Author
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Author 2: Ali Parker -->
+                <div class="author-card reveal stagger-2">
+                    <div class="author-card-header">
+                        <div class="author-photo-wrapper">
+                            <a href="https://www.amazon.com/stores/Ali-Parker/author/B00W1PEOOK" target="_blank">
+                                <img src="Ali.jpg.webp" alt="Ali Parker" class="author-photo">
+                            </a>
+                            <div class="author-verified"><i class="fas fa-check"></i></div>
+                        </div>
+                        <div class="author-info">
+                            <h3>Ali Parker</h3>
+                            <div class="author-genre">Contemporary Romance</div>
+                            <a href="mailto:authoraliparter@tutamail.com" class="author-email-link">
+                                <i class="fas fa-envelope"></i> authoraliparter@tutamail.com
+                            </a>
+                        </div>
+                    </div>
+                    <div class="author-book-section">
+                        <a href="https://www.amazon.com/stores/Ali-Parker/author/B00W1PEOOK" target="_blank" class="author-book-cover">
+                            <img src="Ali parker.webp" alt="Ali Parker Book">
+                        </a>
+                        <div class="author-book-info">
+                            <h4>Featured Book</h4>
+                            <p>Ali Parker delivers a compelling romantic journey that keeps readers hooked until the very last word. A story of love, resilience, and unforgettable characters that resonate deeply.</p>
+                        </div>
+                    </div>
+                    <div class="author-card-footer">
+                        <a href="https://www.amazon.com/stores/Ali-Parker/author/B00W1PEOOK" target="_blank" class="amazon-btn">
+                            <i class="fab fa-amazon"></i> View on Amazon
+                        </a>
+                        <a href="mailto:authoraliparter@tutamail.com" class="author-contact-btn">
+                            <i class="fas fa-envelope"></i> Contact Author
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Author 3: Nora Roberts -->
+                <div class="author-card reveal stagger-3">
+                    <div class="author-card-header">
+                        <div class="author-photo-wrapper">
+                            <a href="https://www.amazon.com/stores/Nora-Roberts/author/B000APK6EU" target="_blank">
+                                <img src="nora.jpg.jpg" alt="Nora Roberts" class="author-photo">
+                            </a>
+                            <div class="author-verified"><i class="fas fa-check"></i></div>
+                        </div>
+                        <div class="author-info">
+                            <h3>Nora Roberts</h3>
+                            <div class="author-genre">Romance & Suspense</div>
+                            <a href="mailto:Authornoraroberts@proton.me" class="author-email-link">
+                                <i class="fas fa-envelope"></i> Authornoraroberts@proton.me
+                            </a>
+                        </div>
+                    </div>
+                    <div class="author-book-section">
+                        <a href="https://www.amazon.com/stores/Nora-Roberts/author/B000APK6EU" target="_blank" class="author-book-cover">
+                            <img src="nb.jpg" alt="Nora Roberts Book">
+                        </a>
+                        <div class="author-book-info">
+                            <h4>Featured Book</h4>
+                            <p>Nora Roberts weaves a stunning tapestry of romance and intrigue that readers cannot put down. Her storytelling mastery creates worlds readers want to live in forever.</p>
+                        </div>
+                    </div>
+                    <div class="author-card-footer">
+                        <a href="https://www.amazon.com/stores/Nora-Roberts/author/B000APK6EU" target="_blank" class="amazon-btn">
+                            <i class="fab fa-amazon"></i> View on Amazon
+                        </a>
+                        <a href="mailto:Authornoraroberts@proton.me" class="author-contact-btn">
+                            <i class="fas fa-envelope"></i> Contact Author
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Author 4: Wendy Holden -->
+                <div class="author-card reveal stagger-4">
+                    <div class="author-card-header">
+                        <div class="author-photo-wrapper">
+                            <a href="https://www.amazon.com/Born-Survivors-Mothers-Extraordinary-Defiance-ebook/dp/B00NVLNZ8Y/" target="_blank">
+                                <img src="wendy.jpg.webp" alt="Wendy Holden" class="author-photo">
+                            </a>
+                            <div class="author-verified"><i class="fas fa-check"></i></div>
+                        </div>
+                        <div class="author-info">
+                            <h3>Wendy Holden</h3>
+                            <div class="author-genre">Non-Fiction & History</div>
+                            <a href="mailto:Authorwendyholden@gmail.com" class="author-email-link">
+                                <i class="fas fa-envelope"></i> Authorwendyholden@gmail.com
+                            </a>
+                        </div>
+                    </div>
+                    <div class="author-book-section">
+                        <a href="https://www.amazon.com/Born-Survivors-Mothers-Extraordinary-Defiance-ebook/dp/B00NVLNZ8Y/" target="_blank" class="author-book-cover">
+                            <img src="born jpeg.jpg" alt="Born Survivors by Wendy Holden">
+                        </a>
+                        <div class="author-book-info">
+                            <h4>Born Survivors</h4>
+                            <p>An extraordinary true story of three mothers and their remarkable defiance during humanity's darkest hour. Wendy Holden brings history to life with compassion and breathtaking detail.</p>
+                        </div>
+                    </div>
+                    <div class="author-card-footer">
+                        <a href="https://www.amazon.com/Born-Survivors-Mothers-Extraordinary-Defiance-ebook/dp/B00NVLNZ8Y/" target="_blank" class="amazon-btn">
+                            <i class="fab fa-amazon"></i> View on Amazon
+                        </a>
+                        <a href="mailto:Authorwendyholden@gmail.com" class="author-contact-btn">
+                            <i class="fas fa-envelope"></i> Contact Author
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Author 5: Jennie Garth -->
+                <div class="author-card reveal stagger-5">
+                    <div class="author-card-header">
+                        <div class="author-photo-wrapper">
+                            <a href="https://www.amazon.com/s?k=i+choose+me+jennie+garth&i=digital-text" target="_blank">
+                                <img src="jennie garth pics.jpg" alt="Jennie Garth" class="author-photo">
+                            </a>
+                            <div class="author-verified"><i class="fas fa-check"></i></div>
+                        </div>
+                        <div class="author-info">
+                            <h3>Jennie Garth</h3>
+                            <div class="author-genre">Memoir & Self-Help</div>
+                            <a href="mailto:contact.authorgarthjennie@gmail.com" class="author-email-link">
+                                <i class="fas fa-envelope"></i> contact.authorgarthjennie@gmail.com
+                            </a>
+                        </div>
+                    </div>
+                    <div class="author-book-section">
+                        <a href="https://www.amazon.com/s?k=i+choose+me+jennie+garth&i=digital-text" target="_blank" class="author-book-cover">
+                            <img src="garth.jpg.jpg" alt="I Choose Me by Jennie Garth">
+                        </a>
+                        <div class="author-book-info">
+                            <h4>I Choose Me</h4>
+                            <p>A powerful memoir about self-discovery, empowerment, and the courage it takes to choose yourself. Jennie Garth shares her deeply personal journey with raw honesty and inspiration.</p>
+                        </div>
+                    </div>
+                    <div class="author-card-footer">
+                        <a href="https://www.amazon.com/s?k=i+choose+me+jennie+garth&i=digital-text" target="_blank" class="amazon-btn">
+                            <i class="fab fa-amazon"></i> View on Amazon
+                        </a>
+                        <a href="mailto:contact.authorgarthjennie@gmail.com" class="author-contact-btn">
+                            <i class="fas fa-envelope"></i> Contact Author
+                        </a>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================
+         FOUNDER MISSION SECTION (Second Appearance)
+         ============================================ -->
+    <section class="section section-dark">
+        <div class="container">
+            <div class="founder-mission-section">
+                <div class="mission-content reveal-left">
+                    <div class="section-badge"><i class="fas fa-bullseye"></i> Our Mission</div>
+                    <h2>Every Great Book Deserves to Be <span style="color:var(--royal-gold)">Seen by the Right Readers</span></h2>
+                    <p>We were built on one simple belief: too many talented authors struggle not because their books are bad, but because they lack the strategic marketing infrastructure to reach their audience. Mercyworld Read Network exists to solve that problem.</p>
+                    <p>We combine book industry expertise with structured marketing systems to give authors a real, measurable advantage in the marketplace. Every conversation, every decision, every update is documented via email. That is our commitment to you.</p>
+                    <p>We operate on five core beliefs: every book is a business, strategy before promotion, documentation is accountability, authors are partners not clients, and quality over quantity.</p>
+                    <div class="founder-quote">
+                        <p>"To provide every serious author with a professional, transparent, and strategically driven marketing experience that transforms their book from a finished manuscript into a recognized and profitable brand."</p>
+                    </div>
+                </div>
+                <div class="mission-image reveal-right">
+                    <img src="mercyworld.jpg" alt="Matthew Raphael - Mission" loading="lazy">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================
+         POLICIES SECTION
+         ============================================ -->
+    <section class="section section-gradient">
+        <div class="container">
+            <div class="section-header reveal">
+                <div class="section-badge"><i class="fas fa-shield-alt"></i> Our Policies</div>
+                <h2 class="section-title">Our Commitment to <span class="gold">Transparency</span></h2>
+                <div class="section-divider"></div>
+            </div>
+            <div class="policies-grid">
+                <div class="policy-card reveal stagger-1">
+                    <div class="policy-icon"><i class="fas fa-envelope"></i></div>
+                    <h4>Email Only Communication</h4>
+                    <p>All projects are handled exclusively via email. No phone calls. No social media messages. Full documentation on every interaction.</p>
+                </div>
+                <div class="policy-card reveal stagger-2">
+                    <div class="policy-icon"><i class="fas fa-file-signature"></i></div>
+                    <h4>Written Agreements Only</h4>
+                    <p>No project begins without a formal written agreement sent and confirmed via email. Every term is clear before work starts.</p>
+                </div>
+                <div class="policy-card reveal stagger-3">
+                    <div class="policy-icon"><i class="fas fa-clock"></i></div>
+                    <h4>48 to 72 Hour Response</h4>
+                    <p>Every email is acknowledged within 24 hours. Every project submission receives a detailed response within 48 to 72 hours.</p>
+                </div>
+                <div class="policy-card reveal stagger-4">
+                    <div class="policy-icon"><i class="fas fa-hand-holding-heart"></i></div>
+                    <h4>No Hidden Fees</h4>
+                    <p>All project terms are agreed upon before any work begins. There are no surprise charges, no hidden costs, and no verbal promises.</p>
+                </div>
+                <div class="policy-card reveal stagger-5">
+                    <div class="policy-icon"><i class="fas fa-database"></i></div>
+                    <h4>Full Documentation</h4>
+                    <p>We maintain full documentation of every project for accountability, reference, and transparency. Available to you at any time.</p>
+                </div>
+                <div class="policy-card reveal stagger-6">
+                    <div class="policy-icon"><i class="fas fa-user-check"></i></div>
+                    <h4>Selective Acceptance</h4>
+                    <p>We are selective about the projects we accept. If we cannot deliver meaningful results, we will tell you before you invest any resources.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================
+         SUBMISSION GUIDELINES / FAQ SECTION
+         ============================================ -->
+    <section class="section section-dark" id="guidelines">
+        <div class="container">
+            <div class="section-header reveal">
+                <div class="section-badge"><i class="fas fa-clipboard-list"></i> Submission Guidelines</div>
+                <h2 class="section-title">Everything You Need to Know <span class="gold">Before Submitting</span></h2>
+                <div class="section-divider"></div>
+                <p class="section-subtitle">Every project at Mercyworld Read Network begins with a single email. This section tells you exactly what to include, what to expect, and how the process works from start to finish.</p>
+            </div>
+
+            <div class="guidelines-grid reveal">
+                <div>
+                    <h3 style="font-family:'Playfair Display',serif;font-size:1.5rem;color:var(--royal-gold);margin-bottom:25px;">Required Information for Your Email</h3>
+                    <div class="guideline-card" style="margin-bottom:15px;">
+                        <h3><i class="fas fa-user" style="color:var(--royal-gold)"></i> Your Full Name</h3>
+                        <p>Your legal name or pen name, exactly as you want it to appear professionally.</p>
+                    </div>
+                    <div class="guideline-card" style="margin-bottom:15px;">
+                        <h3><i class="fas fa-book" style="color:var(--royal-gold)"></i> Book Title and Subtitle</h3>
+                        <p>The complete title including subtitle. If part of a series, indicate the series number.</p>
+                    </div>
+                    <div class="guideline-card" style="margin-bottom:15px;">
+                        <h3><i class="fas fa-tags" style="color:var(--royal-gold)"></i> Genre and Subgenre</h3>
+                        <p>Be as specific as possible. "Christian contemporary fiction with elements of suspense" is better than "Fiction."</p>
+                    </div>
+                    <div class="guideline-card" style="margin-bottom:15px;">
+                        <h3><i class="fas fa-link" style="color:var(--royal-gold)"></i> Book Purchase Link</h3>
+                        <p>The direct URL where your book can be purchased. Amazon, your website, or any platform.</p>
+                    </div>
+                    <div class="guideline-card" style="margin-bottom:15px;">
+                        <h3><i class="fas fa-bullseye" style="color:var(--royal-gold)"></i> Your Marketing Goals</h3>
+                        <p>What do you want to achieve? Be specific about sales targets, visibility goals, and audience reach.</p>
+                    </div>
+                    <div class="guideline-card" style="margin-bottom:15px;">
+                        <h3><i class="fas fa-calendar-alt" style="color:var(--royal-gold)"></i> Your Timeline</h3>
+                        <p>When do you want the campaign to begin? Any launch dates or deadlines we should know about.</p>
+                    </div>
+                </div>
+
+                <div>
+                    <h3 style="font-family:'Playfair Display',serif;font-size:1.5rem;color:var(--royal-gold);margin-bottom:25px;">Frequently Asked Questions</h3>
+                    <div class="faq-item">
+                        <div class="faq-question" onclick="toggleFaq(this)">
+                            <h4>Do you work with self-published authors?</h4>
+                            <i class="fas fa-chevron-down"></i>
+                        </div>
+                        <div class="faq-answer">
+                            <p>Yes. We work with self-published authors, traditionally published authors, and hybrid authors. Your publishing path does not matter. What matters is the quality of your book and your commitment to marketing it professionally.</p>
+                        </div>
+                    </div>
+                    <div class="faq-item">
+                        <div class="faq-question" onclick="toggleFaq(this)">
+                            <h4>Do you work with authors outside the United States?</h4>
+                            <i class="fas fa-chevron-down"></i>
+                        </div>
+                        <div class="faq-answer">
+                            <p>Yes. We work with authors globally. Our process is entirely email-based, which means location is never a barrier. We have worked with authors in Europe, Africa, Asia, and South America.</p>
+                        </div>
+                    </div>
+                    <div class="faq-item">
+                        <div class="faq-question" onclick="toggleFaq(this)">
+                            <h4>How long does a typical campaign last?</h4>
+                            <i class="fas fa-chevron-down"></i>
+                        </div>
+                        <div class="faq-answer">
+                            <p>It depends on the service. Visibility optimization takes 2 to 4 weeks. Launch campaigns run 4 to 8 weeks. Ongoing promotion runs for a minimum of 3 months. The Complete Marketing Package is customized to your needs.</p>
+                        </div>
+                    </div>
+                    <div class="faq-item">
+                        <div class="faq-question" onclick="toggleFaq(this)">
+                            <h4>How do I get pricing for your services?</h4>
+                            <i class="fas fa-chevron-down"></i>
+                        </div>
+                        <div class="faq-answer">
+                            <p>We do not publish pricing on our website. Every author's book is different. To get pricing, email us at mercyworldreadnetwork@gmail.com with your book details. We will send you a detailed proposal within 48 to 72 hours.</p>
+                        </div>
+                    </div>
+                    <div class="faq-item">
+                        <div class="faq-question" onclick="toggleFaq(this)">
+                            <h4>What if I am not satisfied with the results?</h4>
+                            <i class="fas fa-chevron-down"></i>
+                        </div>
+                        <div class="faq-answer">
+                            <p>We stand behind our work. If you are not satisfied with any aspect of your campaign, we will review the situation, document the issue, and work with you to resolve it. Our goal is to deliver results you are proud of.</p>
+                        </div>
+                    </div>
+                    <div class="faq-item">
+                        <div class="faq-question" onclick="toggleFaq(this)">
+                            <h4>Do you require a contract?</h4>
+                            <i class="fas fa-chevron-down"></i>
+                        </div>
+                        <div class="faq-answer">
+                            <p>Yes. Every project begins with a formal project agreement sent via email. This agreement outlines the scope, deliverables, timeline, and terms. It protects both you and us. Everything is in writing.</p>
+                        </div>
+                    </div>
+                    <div class="faq-item">
+                        <div class="faq-question" onclick="toggleFaq(this)">
+                            <h4>Why email only? Can I call or message you?</h4>
+                            <i class="fas fa-chevron-down"></i>
+                        </div>
+                        <div class="faq-answer">
+                            <p>Email creates a permanent record. Every conversation, every decision, every agreement is documented in writing. This means no misunderstandings, full accountability, and complete transparency on every project.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================
+         CONTACT / SUBMISSION SECTION
+         ============================================ -->
+    <section class="section section-gradient" id="contact">
+        <div class="container">
+            <div class="section-header reveal">
+                <div class="section-badge"><i class="fas fa-paper-plane"></i> Submit Your Project</div>
+                <h2 class="section-title">Ready to <span class="gold">Get Started?</span></h2>
+                <div class="section-divider"></div>
+                <p class="section-subtitle">Every great author partnership starts with a single email. If you are serious about your book and ready for professional marketing, reach out today. For pricing and package details, include your question in the form below.</p>
+            </div>
+            <div class="contact-grid">
+                <div class="contact-info reveal-left">
+                    <h2>Contact <span style="color:var(--royal-gold)">Mercyworld Read Network</span></h2>
+                    <p>We welcome serious authors who are ready to invest in professional book marketing. All project inquiries, questions, pricing details, and correspondence are handled exclusively via email.</p>
+
+                    <div class="contact-method">
+                        <div class="contact-method-icon"><i class="fas fa-envelope"></i></div>
+                        <div>
+                            <h4>Email Us Directly</h4>
+                            <p><a href="mailto:mercyworldreadnetwork@gmail.com">mercyworldreadnetwork@gmail.com</a></p>
+                        </div>
+                    </div>
+                    <div class="contact-method">
+                        <div class="contact-method-icon"><i class="fas fa-clock"></i></div>
+                        <div>
+                            <h4>Response Time</h4>
+                            <p>48 to 72 hours for all submissions</p>
+                        </div>
+                    </div>
+                    <div class="contact-method">
+                        <div class="contact-method-icon"><i class="fas fa-file-alt"></i></div>
+                        <div>
+                            <h4>What You Receive</h4>
+                            <p>Detailed strategy proposal with pricing</p>
+                        </div>
+                    </div>
+                    <div class="contact-method">
+                        <div class="contact-method-icon"><i class="fas fa-globe-americas"></i></div>
+                        <div>
+                            <h4>Global Service</h4>
+                            <p>We work with authors worldwide</p>
+                        </div>
+                    </div>
+
+                    <div style="margin-top:30px;">
+                        <div class="footer-founder-mini">
+                            <img src="mercyworld.jpg" alt="Matthew Raphael">
+                            <div class="footer-founder-mini-info">
+                                <h5>Matthew Raphael</h5>
+                                <p>Founder & Lead Strategist</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="contact-form-wrapper reveal-right">
+                    <h3>Submit Your Book Project</h3>
+                    <form action="https://formspree.io/f/mreykpkk" method="POST">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Your Full Name *</label>
+                                <input type="text" name="full_name" placeholder="Enter your name" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Your Email *</label>
+                                <input type="email" name="email" placeholder="Enter your email" required>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Book Title *</label>
+                                <input type="text" name="book_title" placeholder="Enter book title" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Genre *</label>
+                                <input type="text" name="genre" placeholder="e.g., Christian Fiction, Romance" required>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>Book Purchase Link</label>
+                            <input type="url" name="book_link" placeholder="Amazon link or website URL">
+                        </div>
+                        <div class="form-group">
+                            <label>Service Interested In</label>
+                            <select name="service_interest">
+                                <option value="">Select a service</option>
+                                <option value="Book Visibility Optimization">Book Visibility Optimization</option>
+                                <option value="Book Launch Campaign">Book Launch Campaign</option>
+                                <option value="Ongoing Book Promotion">Ongoing Book Promotion</option>
+                                <option value="Author Brand Development">Author Brand Development</option>
+                                <option value="Featured Author Placement">Featured Author Placement</option>
+                                <option value="Complete Marketing Package">Complete Marketing Package</option>
+                                <option value="Not Sure Yet">Not Sure Yet / Need Guidance</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Your Marketing Goals *</label>
+                            <textarea name="marketing_goals" placeholder="Tell us what you want to achieve with your book. Include any timeline, goals, or questions about pricing." required></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label>Book Summary</label>
+                            <textarea name="book_summary" placeholder="Brief 2-3 paragraph summary of your book"></textarea>
+                        </div>
+                        <input type="hidden" name="_subject" value="New Book Project Submission - Mercyworld Read Network">
+                        <button type="submit" class="form-submit">
+                            <i class="fas fa-paper-plane"></i> Submit Your Project
+                        </button>
+                        <p style="text-align:center;font-size:0.75rem;color:var(--text-muted);margin-top:15px;">By submitting, you agree to receive a response via email. All communication is documented for transparency.</p>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================
+         FINAL CTA BANNER
+         ============================================ -->
+    <section class="cta-banner">
+        <div class="container">
+            <div class="cta-banner-content reveal-scale">
+                <h2>Your Book Has Already Been Written.<br>Now Let Us Make Sure the <span style="color:var(--royal-gold)">World Finds It.</span></h2>
+                <p>We are currently accepting new author projects. Every submission receives a detailed response within 48 to 72 hours. For pricing and package details, email us today.</p>
+                <div class="cta-email-display">
+                    <i class="fas fa-envelope"></i>
+                    <a href="mailto:mercyworldreadnetwork@gmail.com">mercyworldreadnetwork@gmail.com</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================
+         FOOTER
+         ============================================ -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <div class="footer-logo">
+                        <div class="footer-logo-icon">M</div>
+                        <span class="footer-logo-text">Mercyworld Read Network</span>
+                    </div>
+                    <p>Strategic Book Marketing for Serious Authors. Every project is handled with precision, professionalism, and complete documentation. All communication is handled exclusively via email.</p>
+                    <div class="foDonald Gilroy.jpegoter-founder-mini">
+                        <img src="" alt="Matthew Raphael">
+                        <div class="footer-founder-mini-info">
+                            <h5>Matthew Raphael</h5>
+                            <p>Founder & Lead Strategist</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="footer-col">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="#home"><i class="fas fa-chevron-right"></i> Home</a></li>
+                        <li><a href="#about"><i class="fas fa-chevron-right"></i> About Us</a></li>
+                        <li><a href="#services"><i class="fas fa-chevron-right"></i> Services</a></li>
+                        <li><a href="#authors"><i class="fas fa-chevron-right"></i> Featured Authors</a></li>
+                        <li><a href="#guidelines"><i class="fas fa-chevron-right"></i> Guidelines</a></li>
+                        <li><a href="#contact"><i class="fas fa-chevron-right"></i> Contact</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Services</h4>
+                    <ul>
+                        <li><a href="#services"><i class="fas fa-chevron-right"></i> Visibility Optimization</a></li>
+                        <li><a href="#services"><i class="fas fa-chevron-right"></i> Launch Campaign</a></li>
+                        <li><a href="#services"><i class="fas fa-chevron-right"></i> Ongoing Promotion</a></li>
+                        <li><a href="#services"><i class="fas fa-chevron-right"></i> Brand Development</a></li>
+                        <li><a href="#services"><i class="fas fa-chevron-right"></i> Featured Placement</a></li>
+                        <li><a href="#services"><i class="fas fa-chevron-right"></i> Complete Package</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Contact</h4>
+                    <ul>
+                        <li><a href="mailto:mercyworldreadnetwork@gmail.com"><i class="fas fa-envelope"></i> Email Us</a></li>
+                    </ul>
+                    <div class="footer-email-highlight">
+                        <p>For all inquiries and pricing:</p>
+                        <a href="mailto:mercyworldreadnetwork@gmail.com">mercyworldreadnetwork@gmail.com</a>
+                    </div>
+                    <div style="margin-top:15px;padding:12px;border:1px solid var(--glass-border);border-radius:10px;">
+                        <p style="font-size:0.7rem;color:var(--text-muted);line-height:1.6;">
+                            <i class="fas fa-clock" style="color:var(--royal-gold);margin-right:5px;"></i> 
+                            Response: 48 to 72 hours<br>
+                            <i class="fas fa-shield-alt" style="color:var(--royal-gold);margin-right:5px;"></i> 
+                            Email Only Communication<br>
+                            <i class="fas fa-file-contract" style="color:var(--royal-gold);margin-right:5px;"></i> 
+                            Written Agreements Only
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 Mercyworld Read Network. All Rights Reserved. Founded by Matthew Raphael.</p>
+                <div class="footer-bottom-links">
+                    <a href="#home">Home</a>
+                    <a href="#about">About</a>
+                    <a href="#services">Services</a>
+                    <a href="#contact">Contact</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- ============================================
+         BACK TO TOP BUTTON
+         ============================================ -->
+    <a href="#home" class="back-to-top" id="backToTop">
+        <i class="fas fa-chevron-up"></i>
+    </a>
+
+    <!-- ============================================
+         JAVASCRIPT
+         ============================================ -->
+    <script>
+        // ============================================
+        // PRELOADER
+        // ============================================
+        window.addEventListener('load', function() {
+            setTimeout(function() {
+                document.getElementById('preloader').classList.add('hidden');
+            }, 2000);
+        });
+
+        // ============================================
+        // NAVBAR SCROLL EFFECT
+        // ============================================
+        const navbar = document.getElementById('navbar');
+        const trustBar = document.getElementById('trustBar');
+        const backToTop = document.getElementById('backToTop');
+
+        window.addEventListener('scroll', function() {
+            const scrollY = window.scrollY;
+            
+            if (scrollY > 80) {
+                navbar.classList.add('scrolled');
+                trustBar.style.display = 'block';
+            } else {
+                navbar.classList.remove('scrolled');
+                trustBar.style.display = 'none';
+            }
+
+            if (scrollY > 500) {
+                backToTop.classList.add('visible');
+            } else {
+                backToTop.classList.remove('visible');
+            }
+        });
+
+        // ============================================
+        // MOBILE NAV TOGGLE
+        // ============================================
+        function toggleNav() {
+            document.getElementById('navLinks').classList.toggle('active');
+            document.getElementById('hamburger').classList.toggle('active');
+        }
+
+        function closeNav() {
+            document.getElementById('navLinks').classList.remove('active');
+            document.getElementById('hamburger').classList.remove('active');
+        }
+
+        // ============================================
+        // SCROLL REVEAL ANIMATIONS
+        // ============================================
+        function revealElements() {
+            const reveals = document.querySelectorAll('.reveal, .reveal-left, .reveal-right, .reveal-scale');
+            
+            reveals.forEach(function(element) {
+                const windowHeight = window.innerHeight;
+                const elementTop = element.getBoundingClientRect().top;
+                const revealPoint = 100;
+
+                if (elementTop < windowHeight - revealPoint) {
+                    element.classList.add('active');
+                }
+            });
+        }
+
+        window.addEventListener('scroll', revealElements);
+        window.addEventListener('load', function() {
+            setTimeout(revealElements, 2100);
+        });
+
+        // ============================================
+        // COUNTER ANIMATION
+        // ============================================
+        function animateCounters() {
+            const counters = document.querySelectorAll('.counter');
+            
+            counters.forEach(function(counter) {
+                const target = parseInt(counter.getAttribute('data-target'));
+                const windowHeight = window.innerHeight;
+                const elementTop = counter.getBoundingClientRect().top;
+                
+                if (elementTop < windowHeight - 100 && !counter.classList.contains('counted')) {
+                    counter.classList.add('counted');
+                    let current = 0;
+                    const increment = target / 60;
+                    const timer = setInterval(function() {
+                        current += increment;
+                        if (current >= target) {
+                            counter.textContent = target;
+                            clearInterval(timer);
+                        } else {
+                            counter.textContent = Math.floor(current);
+                        }
+                    }, 30);
+                }
+            });
+        }
+
+        window.addEventListener('scroll', animateCounters);
+        window.addEventListener('load', function() {
+            setTimeout(animateCounters, 2200);
+        });
+
+        // ============================================
+        // FAQ TOGGLE
+        // ============================================
+        function toggleFaq(element) {
+            const faqItem = element.parentElement;
+            const allFaqs = document.querySelectorAll('.faq-item');
+            
+            allFaqs.forEach(function(item) {
+                if (item !== faqItem) {
+                    item.classList.remove('active');
+                }
+            });
+            
+            faqItem.classList.toggle('active');
+        }
+
+        // ============================================
+        // SMOOTH SCROLL FOR ANCHOR LINKS
+        // ============================================
+        document.querySelectorAll('a[href^="#"]').forEach(function(anchor) {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    const offsetTop = target.offsetTop - 80;
+                    window.scrollTo({
+                        top: offsetTop,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+
+        // ============================================
+        // PARALLAX EFFECT FOR HERO
+        // ============================================
+        window.addEventListener('scroll', function() {
+            const scrollY = window.scrollY;
+            const heroImage = document.querySelector('.hero-image-frame');
+            if (heroImage && scrollY < 800) {
+                heroImage.style.transform = 'translateY(' + (scrollY * 0.08) + 'px)';
+            }
+        });
+
+        // ============================================
+        // NAVBAR ACTIVE LINK HIGHLIGHT
+        // ============================================
+        window.addEventListener('scroll', function() {
+            const sections = document.querySelectorAll('section[id]');
+            const navLinks = document.querySelectorAll('.nav-links a:not(.nav-cta)');
+            
+            let current = '';
+            sections.forEach(function(section) {
+                const sectionTop = section.offsetTop - 150;
+                if (window.scrollY >= sectionTop) {
+                    current = section.getAttribute('id');
+                }
+            });
+
+            navLinks.forEach(function(link) {
+                link.style.color = '';
+                if (link.getAttribute('href') === '#' + current) {
+                    link.style.color = 'var(--royal-gold)';
+                }
+            });
+        });
+
+        // ============================================
+        // FORM SUBMISSION FEEDBACK
+        // ============================================
+        const form = document.querySelector('form');
+        if (form) {
+            form.addEventListener('submit', function(e) {
+                const btn = form.querySelector('.form-submit');
+                btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Submitting...';
+                btn.disabled = true;
+                
+                setTimeout(function() {
+                    btn.innerHTML = '<i class="fas fa-check"></i> Submitted Successfully!';
+                    btn.style.background = 'linear-gradient(135deg, #2d5a3d, #1a4a2d)';
+                    btn.style.color = '#fff';
+                }, 2000);
+            });
+        }
+
+        // ============================================
+        // TILT EFFECT ON CARDS (Desktop Only)
+        // ============================================
+        if (window.innerWidth > 768) {
+            document.querySelectorAll('.service-card, .why-card, .author-card').forEach(function(card) {
+                card.addEventListener('mousemove', function(e) {
+                    const rect = card.getBoundingClientRect();
+                    const x = e.clientX - rect.left;
+                    const y = e.clientY - rect.top;
+                    const centerX = rect.width / 2;
+                    const centerY = rect.height / 2;
+                    const rotateX = (y - centerY) / 25;
+                    const rotateY = (centerX - x) / 25;
+                    
+                    card.style.transform = 'perspective(1000px) rotateX(' + rotateX + 'deg) rotateY(' + rotateY + 'deg) translateY(-10px)';
+                });
+
+                card.addEventListener('mouseleave', function() {
+                    card.style.transform = '';
+                });
+            });
+        }
+
+        // ============================================
+        // TYPING EFFECT FOR HERO (Optional Enhancement)
+        // ============================================
+        function typeWriter(element, text, speed) {
+            let i = 0;
+            element.textContent = '';
+            function type() {
+                if (i < text.length) {
+                    element.textContent += text.charAt(i);
+                    i++;
+                    setTimeout(type, speed);
+                }
+            }
+            type();
+        }
+    </script>
+
+</body>
+</html>
